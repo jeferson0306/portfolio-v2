@@ -3,10 +3,20 @@
 Personal portfolio of **Jeferson Siqueira** — Senior Full Stack Engineer &
 Interactive UI Specialist.
 
-A cinematic, dark, scroll-driven single page: a hero whose background clip is
-scrubbed frame-by-frame by the scroll position, a scrollytelling career
-timeline, animated metrics, a velocity-reactive brand marquee and a pinned
-horizontal project showcase — all statically exported, no server required.
+A cinematic, dark, scroll-driven single page — statically exported, no server
+required. Each section deliberately uses a different relationship with the
+scroll rather than repeating one entrance animation:
+
+| Section      | Archetype                                                               |
+| ------------ | ----------------------------------------------------------------------- |
+| Hero         | the scroll is the video's playhead (ScrollTrigger scrubs `currentTime`) |
+| Manifesto    | pinned; the statement lights up word by word as you scroll              |
+| Trajectory   | split layout with a pinned panel naming the entry being read            |
+| Metrics      | counters that run once on entry                                         |
+| Architecture | an SVG request path that draws itself along the scroll                  |
+| Brands       | a marquee whose speed and direction follow scroll velocity              |
+| Stack        | a grid that ripples outward from the hovered cell                       |
+| Work         | pinned horizontal scroll; cards morph into case studies with GSAP Flip  |
 
 ## Stack
 

@@ -35,3 +35,19 @@ Personal portfolio for Jeferson Siqueira. Static site, no backend, no database.
   can change must be remounted (`key={text}`), not patched.
 - `background-clip: text` does not survive being split into per-line elements;
   `.text-shine` uses a mask instead.
+- GSAP Flip matches elements by `data-flip-id`. Only one element may carry a
+  given id at a time, so the project card drops its id while its case study
+  panel is open.
+- `position: fixed` resolves against the transformed `#smooth-content`, not the
+  viewport. Overlays must be portalled to `document.body`.
+
+## React gotchas already paid for
+
+- An effect that locks `document.body.style.overflow` must not depend on a
+  callback prop: the callback is a new function on every parent render, so the
+  effect re-runs, captures its own `"hidden"` as the value to restore, and
+  leaves the page unscrollable. Split the lock into its own `[]` effect.
+- Anything a user must see has to be visible without JavaScript and under
+  `prefers-reduced-motion`. Reveal _from_ JavaScript (`gsap.set(..., opacity: 0)`
+  in a layout effect), never by shipping `opacity: 0` in the markup, and use
+  `gsap.from` rather than `gsap.to` for entrances.
