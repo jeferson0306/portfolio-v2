@@ -82,5 +82,81 @@ export const es: Dictionary = {
       sla: "SLA sostenido en sistemas críticos",
     },
   },
+  rail: {
+    top: "Inicio",
+    manifesto: "Manifiesto",
+    trajectory: "Trayectoria",
+    architecture: "Arquitectura",
+    stack: "Stack",
+    work: "Trabajo",
+    contact: "Contacto",
+  },
+  manifesto: {
+    eyebrow: "Cómo trabajo",
+    text: "Sistemas que sobreviven al contacto con la realidad. Que se depuran desde una línea de log, escalan bajo carga, se recuperan de la caída de una dependencia — y que alguien que no los escribió puede entender.",
+    roles: ["Senior Fullstack Engineer", "Cloud-Native Architect", "Interactive UI Specialist"],
+  },
+  architecture: {
+    eyebrow: "Arquitectura",
+    title: "El camino de una petición.",
+    lead: "La forma que se repite en Banco do Brasil, en Sicredi y en travel-platform: un gateway delante, servicios independientes detrás, eventos uniéndolos y observabilidad atravesándolo todo.",
+    nodes: {
+      client: "Cliente",
+      gateway: "API Gateway",
+      identity: "Identidad",
+      catalog: "Catálogo",
+      booking: "Reservas",
+      broker: "Kafka",
+      store: "Persistencia",
+      observability: "Observabilidad",
+    },
+    caption:
+      "Cada servicio se despliega de forma independiente. El fallo queda aislado, no en cascada.",
+  },
+  caseStudy: {
+    open: "Abrir case study",
+    close: "Cerrar",
+    demo: "Ver demo en vivo",
+    highlightsLabel: "Decisiones de ingeniería",
+    metrics: {
+      services: "Microservicios independientes",
+      adrs: "ADRs escritos",
+      milestones: "Milestones entregados",
+      concurrency: "Peticiones simultáneas",
+      latency: "Latencia de agregación",
+      breaker: "Umbral del circuit breaker",
+      languages: "Idiomas soportados",
+      clip: "Peso del vídeo del hero",
+      servers: "Servidores necesarios",
+    },
+    summaries: {
+      "travel-platform":
+        "Plataforma de reservas construida como nueve microservicios desplegables de forma independiente, con las prácticas de un equipo de producción: domain-driven design, comunicación orientada a eventos, infraestructura como código y un pipeline de CI/CD con quality gates de verdad.",
+      "product-recommendation-service":
+        "Servicio reactivo que agrega dos APIs externas lentas (hasta 1800ms y 800ms) y devuelve recomendaciones personalizadas bajo alta concurrencia, sin agotar el pool de hilos.",
+      "portfolio-v2":
+        "Este sitio. Exportación estática sin servidor, con animaciones ligadas al scroll y un vídeo de fondo generado localmente — sin servicios de pago ni material licenciado.",
+    },
+    highlights: {
+      "travel-platform": [
+        "19 ADRs escritos contra lo que realmente se construyó y midió, no contra lo planeado.",
+        "Experimento de caos con Toxiproxy contra el circuit breaker — el fallo se provocó a propósito y quedó documentado.",
+        "Un despliegue en Kubernetes con recursos limitados sacó a la luz tres bugs genuinos específicos de Kubernetes.",
+        "Un LLM alucinó hasta corregir su ventana de contexto; la corrección quedó registrada en un ADR.",
+      ],
+      "product-recommendation-service": [
+        "Spring WebFlux sobre Netty: I/O no bloqueante en unos pocos hilos de event loop en vez de hilo-por-petición.",
+        "Cachés Caffeine con TTL por fuente — 30 minutos para perfiles, 2 minutos para el catálogo — según la frescura que exige cada una.",
+        "Categorías obtenidas en paralelo con Flux.flatMap: el tiempo total pasa a ser el de la petición más lenta, no la suma.",
+        "Timeout, retry con backoff exponencial y circuit breaker por capas; si una categoría falla, devuelve resultados parciales en lugar de fallar todo.",
+      ],
+      "portfolio-v2": [
+        "El vídeo del hero se renderiza localmente con Node y ffmpeg a partir del mismo shader GLSL del fondo WebGL.",
+        "Un keyframe cada 5 fotogramas en el encode — eso es lo que hace instantáneo el scrubbing por scroll.",
+        "PT/EN/ES, con TypeScript fallando el build si falta una traducción.",
+        "Todas las animaciones tienen equivalente con prefers-reduced-motion; los títulos se leen sin JavaScript.",
+      ],
+    },
+  },
   language: "Idioma",
 };

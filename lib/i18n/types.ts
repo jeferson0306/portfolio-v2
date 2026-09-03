@@ -60,5 +60,33 @@ export type Dictionary = {
     /** Keyed by `Stat.id`. */
     labels: Record<string, string>;
   };
+  /** Side-rail labels, keyed by `SectionId`. */
+  rail: Record<string, string>;
+  manifesto: {
+    eyebrow: string;
+    text: string;
+    /** Cycled through by the scramble effect. */
+    roles: string[];
+  };
+  architecture: {
+    eyebrow: string;
+    title: string;
+    lead: string;
+    /** Keyed by `DiagramNode.id`. */
+    nodes: Record<string, string>;
+    caption: string;
+  };
+  caseStudy: {
+    open: string;
+    close: string;
+    demo: string;
+    highlightsLabel: string;
+    /** Keyed by `CaseStudyMetric.id`. */
+    metrics: Record<string, string>;
+    /** Keyed by `Project.id`. */
+    summaries: Record<string, string>;
+    /** Keyed by `Project.id`. */
+    highlights: Record<string, string[]>;
+  };
   language: string;
 };

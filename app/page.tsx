@@ -1,6 +1,8 @@
 import { Hero } from "@/components/sections/hero";
+import { Manifesto } from "@/components/sections/manifesto";
 import { Timeline } from "@/components/sections/timeline";
 import { Stats } from "@/components/sections/stats";
+import { Architecture } from "@/components/sections/architecture";
 import { Brands } from "@/components/sections/brands";
 import { Skills } from "@/components/sections/skills";
 import { Projects } from "@/components/sections/projects";
@@ -10,8 +12,10 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+      <Manifesto />
       <Timeline />
       <Stats />
+      <Architecture />
       <Brands />
       <Skills />
       <Projects />

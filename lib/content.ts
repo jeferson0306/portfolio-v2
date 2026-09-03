@@ -141,3 +141,72 @@ export const stats: Stat[] = [
   { id: "performance", value: 40, prefix: "+", suffix: "%" },
   { id: "sla", value: 95, suffix: "%" },
 ];
+
+/** Anchors the side rail steps through, in document order. */
+export const sectionIds = [
+  "top",
+  "manifesto",
+  "trajectory",
+  "architecture",
+  "stack",
+  "work",
+  "contact",
+] as const;
+
+export type SectionId = (typeof sectionIds)[number];
+
+/**
+ * Nodes of the request-flow diagram, positioned in the SVG's 900x420 viewBox.
+ * The edges are drawn in array order, which is also the order the scroll
+ * timeline reveals them.
+ */
+export type DiagramNode = { id: string; x: number; y: number };
+
+export const diagramNodes: DiagramNode[] = [
+  { id: "client", x: 60, y: 210 },
+  { id: "gateway", x: 235, y: 210 },
+  { id: "identity", x: 435, y: 80 },
+  { id: "catalog", x: 435, y: 210 },
+  { id: "booking", x: 435, y: 340 },
+  { id: "broker", x: 645, y: 210 },
+  { id: "store", x: 830, y: 130 },
+  { id: "observability", x: 830, y: 300 },
+];
+
+export const diagramEdges: [string, string][] = [
+  ["client", "gateway"],
+  ["gateway", "identity"],
+  ["gateway", "catalog"],
+  ["gateway", "booking"],
+  ["identity", "broker"],
+  ["catalog", "broker"],
+  ["booking", "broker"],
+  ["broker", "store"],
+  ["broker", "observability"],
+];
+
+/** Headline numbers per project, shown when a case study is opened. */
+export type CaseStudyMetric = { id: string; value: string };
+
+export const caseStudyMetrics: Record<string, CaseStudyMetric[]> = {
+  "travel-platform": [
+    { id: "services", value: "9" },
+    { id: "adrs", value: "19" },
+    { id: "milestones", value: "20" },
+  ],
+  "product-recommendation-service": [
+    { id: "concurrency", value: "1000+" },
+    { id: "latency", value: "2400 → 800ms" },
+    { id: "breaker", value: "50% / 10" },
+  ],
+  "portfolio-v2": [
+    { id: "languages", value: "3" },
+    { id: "clip", value: "1.3 MB" },
+    { id: "servers", value: "0" },
+  ],
+};
+
+/** Optional public deployment, linked from the case study panel. */
+export const caseStudyDemos: Record<string, string> = {
+  "travel-platform": "https://aerostay-jeferson0306s-projects.vercel.app",
+};

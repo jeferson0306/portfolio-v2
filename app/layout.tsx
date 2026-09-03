@@ -9,6 +9,7 @@ import { Navbar } from "@/components/ui/navbar";
 import { Cursor } from "@/components/ui/cursor";
 import { Preloader } from "@/components/ui/preloader";
 import { ScrollProgress } from "@/components/ui/scroll-progress";
+import { SectionRail } from "@/components/ui/section-rail";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -67,6 +68,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <AmbientBackground />
             <ScrollProgress />
             <Navbar />
+            <SectionRail />
 
             <SmoothScroll>
               <main>{children}</main>
