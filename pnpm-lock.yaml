@@ -60,6 +60,9 @@ importers:
       prettier:
         specifier: ^3.9.6
         version: 3.9.6
+      simple-icons:
+        specifier: ^13.0.0
+        version: 13.21.0
       typescript:
         specifier: ^5.8.3
         version: 5.9.3
@@ -712,6 +715,10 @@ packages:
       '@types/node':
         optional: true
 
+  simple-icons@13.21.0:
+    resolution: {integrity: sha512-LI5pVJPBv6oc79OMsffwb6kEqnmB8P1Cjg1crNUlhsxPETQ5UzbCKQdxU+7MW6+DD1qfPkla/vSKlLD4IfyXpQ==}
+    engines: {node: '>=0.12.18'}
+
   source-map-js@1.2.1:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
     engines: {node: '>=0.10.0'}
@@ -1287,6 +1294,8 @@ snapshots:
       '@img/sharp-win32-x64': 0.35.4
       '@types/node': 22.20.1
     optional: true
+
+  simple-icons@13.21.0: {}
 
   source-map-js@1.2.1: {}
 

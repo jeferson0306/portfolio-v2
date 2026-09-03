@@ -25,6 +25,13 @@ export const fragmentShader = /* glsl */ `
   uniform vec2 uPointer;
   uniform vec2 uResolution;
 
+  // Grade and behaviour, interpolated on the CPU from lib/background-moods.ts.
+  uniform vec3 uBase;
+  uniform vec3 uHaze;
+  uniform float uDensity;
+  uniform float uScale;
+  uniform float uGrid;
+
   // --- Value noise -------------------------------------------------------
   vec2 hash(vec2 p) {
     p = vec2(dot(p, vec2(127.1, 311.7)), dot(p, vec2(269.5, 183.3)));
@@ -63,10 +70,18 @@ export const fragmentShader = /* glsl */ `
     return value;
   }
 
+  /** Faint blueprint rule, strongest at the centre and fading to the edges. */
+  float blueprint(vec2 p) {
+    vec2 cell = abs(fract(p * 3.2) - 0.5);
+    float line = min(cell.x, cell.y);
+    return 1.0 - smoothstep(0.0, 0.022, line);
+  }
+
   void main() {
     // Aspect-corrected coordinates so the haze never stretches on wide screens.
     vec2 uv = vUv;
     vec2 p = (uv - 0.5) * vec2(uResolution.x / uResolution.y, 1.0);
+    p *= uScale;
 
     float t = uTime * 0.045;
     vec2 drift = vec2(t, -t * 0.6) + uPointer * 0.12 + vec2(0.0, uScroll * 0.35);
@@ -86,12 +101,17 @@ export const fragmentShader = /* glsl */ `
     blade *= smoothstep(1.0, -0.2, uv.y) * 0.35;
 
     // Cool, near-monochrome grade: dark base lifted by a faint blue highlight.
-    vec3 base = vec3(0.012, 0.014, 0.020);
-    vec3 haze = vec3(0.40, 0.45, 0.60);
-    vec3 color = base + haze * density * 0.55 + vec3(0.55, 0.62, 0.78) * blade;
+    // The 0.58 keeps the field recessive: the moods still read against each
+    // other, but no grade ever competes with the text sitting on top of it.
+    vec3 color = uBase + uHaze * density * uDensity * 0.58 + vec3(0.55, 0.62, 0.78) * blade * 0.7;
+
+    // Blueprint overlay: only present where the current mood asks for it, and
+    // pulled back at the edges so it reads as a surface, not a texture.
+    float rule = blueprint(p + vec2(uTime * 0.004, 0.0));
+    color += vec3(0.20, 0.42, 0.56) * rule * uGrid * 0.16 * smoothstep(1.4, 0.2, length(p));
 
     // Vignette keeps the eye centred on the headline.
-    float vignette = smoothstep(1.1, 0.15, length(p));
+    float vignette = smoothstep(1.05, 0.05, length(p));
     color *= vignette;
 
     // Film grain, animated so it never looks like a static texture.

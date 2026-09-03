@@ -4,8 +4,12 @@ import { useMemo, useRef } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { fragmentShader, vertexShader } from "./cinematic-shader";
+import { moodAt } from "@/lib/background-moods";
 
 const PARTICLE_COUNT = 1200;
+
+/** Reused so the per-frame colour lerp allocates nothing. */
+const scratchColor = new THREE.Color();
 const FIELD_RADIUS = 9;
 
 /** Fullscreen volumetric haze. Sits behind everything else in the canvas. */
@@ -19,6 +23,11 @@ function HazePlane() {
       uScroll: { value: 0 },
       uPointer: { value: new THREE.Vector2(0, 0) },
       uResolution: { value: new THREE.Vector2(1, 1) },
+      uBase: { value: new THREE.Color(0.012, 0.014, 0.02) },
+      uHaze: { value: new THREE.Color(0.4, 0.45, 0.6) },
+      uDensity: { value: 0.55 },
+      uScale: { value: 1 },
+      uGrid: { value: 0 },
     }),
     [],
   );
@@ -27,13 +36,29 @@ function HazePlane() {
     const material = materialRef.current;
     if (!material) return;
 
-    material.uniforms.uTime.value += delta;
+    const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = scrollable > 0 ? window.scrollY / scrollable : 0;
+    const mood = moodAt(progress);
+
+    // Speed scales the clock rather than the drift term, so a slower mood also
+    // slows the light blade and the grid without a second uniform.
+    material.uniforms.uTime.value += delta * mood.speed;
+    material.uniforms.uScroll.value = progress;
     material.uniforms.uResolution.value.set(size.width, size.height);
     // Damped pointer so the parallax lags behind the cursor like a heavy rig.
     material.uniforms.uPointer.value.lerp(pointer, 0.03);
 
-    const scrollable = document.documentElement.scrollHeight - window.innerHeight;
-    material.uniforms.uScroll.value = scrollable > 0 ? window.scrollY / scrollable : 0;
+    // The mood itself is already smooth in scroll, but easing toward it absorbs
+    // the jumps a scrollbar drag or an anchor jump would otherwise produce.
+    const ease = 1 - Math.pow(0.001, delta);
+    const base = material.uniforms.uBase.value as THREE.Color;
+    const haze = material.uniforms.uHaze.value as THREE.Color;
+    base.lerp(scratchColor.setRGB(...mood.base), ease);
+    haze.lerp(scratchColor.setRGB(...mood.haze), ease);
+    material.uniforms.uDensity.value += (mood.density - material.uniforms.uDensity.value) * ease;
+    material.uniforms.uScale.value += (mood.scale - material.uniforms.uScale.value) * ease;
+    material.uniforms.uGrid.value += (mood.grid - material.uniforms.uGrid.value) * ease;
+
     void state;
   });
 
@@ -79,7 +104,15 @@ function Particles() {
     const points = pointsRef.current;
     if (!points) return;
 
-    points.rotation.y += delta * 0.03;
+    const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+    const mood = moodAt(scrollable > 0 ? window.scrollY / scrollable : 0);
+    const material = points.material as THREE.PointsMaterial;
+    const ease = 1 - Math.pow(0.001, delta);
+    // Sparse where the haze is sparse; brightest under the blueprint grid,
+    // where they read as vertices rather than dust.
+    material.opacity += (0.14 + mood.density * 0.26 + mood.grid * 0.22 - material.opacity) * ease;
+
+    points.rotation.y += delta * 0.03 * mood.speed;
 
     // Ease toward the pointer instead of snapping, so the parallax feels heavy.
     points.rotation.x += (pointer.y * 0.15 - points.rotation.x) * 0.015;

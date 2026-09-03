@@ -128,7 +128,7 @@ export const phones: Phone[] = [
 
 export const contact = {
   email: "jeferson0306@gmail.com",
-  linkedin: "https://www.linkedin.com/in/jeferson0306",
+  linkedin: "https://www.linkedin.com/in/developerjefersonsiqueira/",
   github: "https://github.com/jeferson0306",
 } as const;
 

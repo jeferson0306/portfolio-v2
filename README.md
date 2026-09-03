@@ -49,6 +49,7 @@ pnpm build         # static export into out/
 pnpm typecheck     # tsc --noEmit
 pnpm format        # prettier --write .
 pnpm format:check  # what CI runs
+pnpm icons         # regenerate lib/tech-icons.ts from simple-icons
 ```
 
 ## Editing the content
@@ -64,6 +65,19 @@ All content lives in two places, and neither of them is a component:
 
 The visitor's language is detected from the browser on first visit and can be
 changed from the switcher in the header; the choice is remembered locally.
+
+## The ambient background
+
+One continuous WebGL field sits behind the whole page, but its grade, density,
+noise scale and drift speed change with the scroll — defined as stops in
+[`lib/background-moods.ts`](lib/background-moods.ts) and interpolated between,
+so no section sits on the same backdrop as its neighbour and nothing switches
+at a boundary. The architecture section is where a faint blueprint grid surfaces
+and the haze recedes.
+
+The field is deliberately recessive: every grade is tuned so text keeps its
+contrast. Under `prefers-reduced-motion` the WebGL layer never mounts and a
+static gradient stands in.
 
 ## The hero background
 

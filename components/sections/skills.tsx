@@ -5,12 +5,14 @@ import { animate, stagger } from "animejs";
 import { Reveal } from "@/components/motion/reveal";
 import { SplitHeading } from "@/components/motion/split-heading";
 import { skillGroups } from "@/lib/content";
+import { TechIcon } from "@/components/ui/tech-icon";
 import { useI18n } from "@/lib/i18n/provider";
 
 export function Skills() {
   const { t } = useI18n();
   const gridRef = useRef<HTMLUListElement>(null);
   const [activeGroup, setActiveGroup] = useState<string | null>(null);
+  const [hovered, setHovered] = useState<string | null>(null);
 
   // One flat list so the grid can be addressed by index for the ripple.
   const cells = useMemo(
@@ -82,7 +84,10 @@ export function Skills() {
 
       <ul
         ref={gridRef}
-        onPointerLeave={() => setActiveGroup(null)}
+        onPointerLeave={() => {
+          setActiveGroup(null);
+          setHovered(null);
+        }}
         className="mt-16 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:mt-20 lg:grid-cols-5"
       >
         {cells.map((cell, index) => (
@@ -92,9 +97,10 @@ export function Skills() {
               data-cursor
               onPointerEnter={() => {
                 setActiveGroup(cell.group);
+                setHovered(cell.item);
                 ripple(index);
               }}
-              className="relative flex h-24 items-center justify-center rounded-xl border border-[var(--border)] bg-white/[0.02] px-3 text-center will-change-transform lg:h-28"
+              className="relative flex h-28 items-center justify-center rounded-xl border border-[var(--border)] bg-white/[0.02] px-3 text-center will-change-transform lg:h-36"
               style={{ borderColor: "rgba(255,255,255,0.08)" }}
             >
               {/* Family index: without it the fifteen cells read as one
@@ -111,13 +117,14 @@ export function Skills() {
                 )}
               </span>
               <span
-                className={`text-sm font-medium tracking-tight transition-colors duration-300 lg:text-base ${
+                className={`flex flex-col items-center gap-3 transition-colors duration-300 ${
                   activeGroup === null || activeGroup === cell.group
                     ? "text-[var(--text-primary)]"
                     : "text-[var(--text-muted)]"
                 }`}
               >
-                {cell.item}
+                <TechIcon name={cell.item} active={hovered === cell.item} />
+                <span className="text-xs font-medium tracking-tight lg:text-sm">{cell.item}</span>
               </span>
             </div>
           </li>

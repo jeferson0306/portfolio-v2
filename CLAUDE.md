@@ -20,6 +20,11 @@ Personal portfolio for Jeferson Siqueira. Static site, no backend, no database.
 - `components/sections/` — one file per page section.
 - `components/motion/` — shared animation primitives and the GLSL background.
 - `lib/content.ts` — facts. `lib/i18n/` — words.
+- `lib/background-moods.ts` — the scroll-keyed grades of the ambient field.
+  Adding a section usually means adding or moving a stop.
+- `lib/tech-icons.ts` — **generated**, do not edit. Run `pnpm icons` after
+  changing the stack list; `simple-icons` is a devDependency precisely so its
+  ~3000 icons never reach the client bundle.
 - `scripts/generate-hero-video.mjs` — regenerates the hero clip with ffmpeg;
   see `docs/hero-media.md`. Nothing but real assets belongs in `public/`: every
   file there is published to the live site.
