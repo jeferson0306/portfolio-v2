@@ -71,7 +71,7 @@ never played: GSAP ScrollTrigger drives `video.currentTime` from the scroll
 position.
 
 To use your own footage instead, drop any `hero.mp4` into `public/media/` — see
-`public/media/README.md` for the encode settings. If the file is missing, the
+[`docs/hero-media.md`](docs/hero-media.md) for the encode settings. If the file is missing, the
 hero falls back to the live WebGL field, so the page never breaks.
 
 ## Deployment

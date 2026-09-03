@@ -20,7 +20,9 @@ Personal portfolio for Jeferson Siqueira. Static site, no backend, no database.
 - `components/sections/` — one file per page section.
 - `components/motion/` — shared animation primitives and the GLSL background.
 - `lib/content.ts` — facts. `lib/i18n/` — words.
-- `scripts/generate-hero-video.mjs` — regenerates the hero clip with ffmpeg.
+- `scripts/generate-hero-video.mjs` — regenerates the hero clip with ffmpeg;
+  see `docs/hero-media.md`. Nothing but real assets belongs in `public/`: every
+  file there is published to the live site.
 
 ## Animation gotchas
 
