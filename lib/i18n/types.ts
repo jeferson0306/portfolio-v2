@@ -49,6 +49,8 @@ export type Dictionary = {
     lead: string;
     email: string;
     phone: string;
+    /** Keyed by `Phone.country`. */
+    countries: Record<string, string>;
     rights: string;
     builtWith: string;
   };

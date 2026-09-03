@@ -114,10 +114,20 @@ export const projects: Project[] = [
   },
 ];
 
+export type Phone = {
+  country: "br" | "pt";
+  /** Display form, spaced the way each country writes it. */
+  label: string;
+  /** E.164, no spaces — what `tel:` needs to dial correctly from abroad. */
+  href: string;
+};
+
+export const phones: Phone[] = [
+  { country: "pt", label: "+351 961 796 687", href: "tel:+351961796687" },
+];
+
 export const contact = {
   email: "jeferson0306@gmail.com",
-  phone: "+351 961 796 687",
-  phoneHref: "tel:+351961796687",
   linkedin: "https://www.linkedin.com/in/jeferson0306",
   github: "https://github.com/jeferson0306",
 } as const;

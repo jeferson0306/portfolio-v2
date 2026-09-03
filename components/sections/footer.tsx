@@ -1,8 +1,9 @@
 "use client";
 
-import { Github, Linkedin, Mail, Phone } from "lucide-react";
+import { Github, Linkedin, Mail } from "lucide-react";
 import { Reveal } from "@/components/motion/reveal";
-import { contact } from "@/lib/content";
+import { Flag } from "@/components/ui/flag";
+import { contact, phones } from "@/lib/content";
 import { useI18n } from "@/lib/i18n/provider";
 
 export function Footer() {
@@ -52,13 +53,23 @@ export function Footer() {
               <p className="text-xs uppercase tracking-[0.2em] text-[var(--text-muted)]">
                 {t.footer.phone}
               </p>
-              <a
-                href={contact.phoneHref}
-                className="mt-3 inline-flex items-center gap-3 text-lg tracking-tight transition-opacity hover:opacity-70 sm:text-xl"
-              >
-                <Phone className="h-4 w-4 text-[var(--text-muted)]" />
-                {contact.phone}
-              </a>
+              <ul className="mt-3 space-y-2">
+                {phones.map((phone) => (
+                  <li key={phone.country}>
+                    <a
+                      href={phone.href}
+                      data-cursor
+                      className="inline-flex items-center gap-3 text-lg tracking-tight transition-opacity hover:opacity-70 sm:text-xl"
+                    >
+                      <Flag country={phone.country} />
+                      {phone.label}
+                      <span className="text-xs uppercase tracking-[0.2em] text-[var(--text-muted)]">
+                        {t.footer.countries[phone.country]}
+                      </span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </div>
           </Reveal>
         </div>

@@ -69,6 +69,7 @@ export const pt: Dictionary = {
     lead: "Disponível para projetos de engenharia de plataforma, arquitetura cloud e interfaces de alto impacto.",
     email: "Email",
     phone: "Telefone",
+    countries: { br: "Brasil", pt: "Portugal" },
     rights: "Todos os direitos reservados.",
     builtWith: "Construído com Next.js, GSAP e Three.js.",
   },
