@@ -8,6 +8,7 @@ export type Dictionary = {
   present: string;
   nav: {
     work: string;
+    services: string;
     trajectory: string;
     stack: string;
     contact: string;
@@ -87,6 +88,63 @@ export type Dictionary = {
     summaries: Record<string, string>;
     /** Keyed by `Project.id`. */
     highlights: Record<string, string[]>;
+  };
+  services: {
+    eyebrow: string;
+    title: string;
+    lead: string;
+    /** Keyed by `Service.id`. */
+    names: Record<string, string>;
+    /** Keyed by `Service.id`. */
+    summaries: Record<string, string>;
+    /** Keyed by `Service.id`. */
+    deliverables: Record<string, string[]>;
+    shape: string;
+    /** Keyed by `Service.id`. */
+    shapes: Record<string, string>;
+  };
+  availability: {
+    open: string;
+    localTime: string;
+    replyWithin: string;
+    outsideHours: string;
+  };
+  contact: {
+    formTitle: string;
+    name: string;
+    email: string;
+    message: string;
+    send: string;
+    sending: string;
+    sent: string;
+    failed: string;
+    fallback: string;
+    whatsapp: string;
+    revealPhone: string;
+  };
+  playground: {
+    eyebrow: string;
+    title: string;
+    lead: string;
+    /** Keyed by `ValidatorField.id`. */
+    fields: Record<string, string>;
+    request: string;
+    response: string;
+    run: string;
+    modeLocal: string;
+    modeLive: string;
+    valid: string;
+    invalid: string;
+    note: string;
+  };
+  cv: {
+    print: string;
+    summary: string;
+    experience: string;
+    skills: string;
+    projects: string;
+    clients: string;
+    download: string;
   };
   language: string;
   theme: string;

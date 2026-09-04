@@ -37,8 +37,19 @@ scroll rather than repeating one entrance animation:
 
 ```bash
 pnpm install
+cp .env.example .env.local   # fill in the values you want locally
 pnpm dev
 ```
+
+### Environment
+
+Nothing here is a secret — every value reaches the client bundle by design — but
+none of it is committed either, because the repository is public and a phone
+number written in source is readable on GitHub no matter how the page hides it.
+They are stored as GitHub Actions **variables** and injected at build time; see
+`.env.example` for the shape. Unset, each feature degrades: the phone block does
+not render, the contact form falls back to a mailto link, and the API console
+runs its rules locally.
 
 Then open http://localhost:3000.
 
@@ -50,7 +61,15 @@ pnpm typecheck     # tsc --noEmit
 pnpm format        # prettier --write .
 pnpm format:check  # what CI runs
 pnpm icons         # regenerate lib/tech-icons.ts from simple-icons
+pnpm og            # regenerate public/og.png
 ```
+
+## Routes
+
+- `/` — the site.
+- `/cv` — the CV, built from the same `lib/content.ts` and dictionaries, so it
+  can never disagree with the site. It prints to PDF through the browser; no
+  rendering pipeline ships for it. Marked `noindex`.
 
 ## Editing the content
 

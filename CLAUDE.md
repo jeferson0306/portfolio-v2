@@ -48,6 +48,14 @@ Personal portfolio for Jeferson Siqueira. Static site, no backend, no database.
 - `position: fixed` resolves against the transformed `#smooth-content`, not the
   viewport. Overlays must be portalled to `document.body`.
 
+## Data that must not be committed
+
+Phone numbers, the WhatsApp handle and the Web3Forms key come from
+`NEXT_PUBLIC_*` variables, never from source: the repository is public. They are
+GitHub Actions _variables_ (not secrets — they all reach the client bundle) and
+are listed in `.env.example`. Every consumer degrades gracefully when a value is
+missing; keep it that way.
+
 ## Theming
 
 - The palette lives entirely in CSS variables on `:root` and `[data-theme="light"]`.

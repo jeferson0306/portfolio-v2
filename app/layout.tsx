@@ -4,6 +4,8 @@ import { MotionConfig } from "framer-motion";
 import "./globals.css";
 import { I18nProvider } from "@/lib/i18n/provider";
 import { Theme } from "@/components/providers/theme";
+import { PersonSchema } from "@/components/seo/person-schema";
+import { Chrome } from "@/components/providers/chrome";
 import { SmoothScroll } from "@/components/providers/smooth-scroll";
 import { AmbientBackground } from "@/components/motion/ambient-background";
 import { Navbar } from "@/components/ui/navbar";
@@ -46,8 +48,16 @@ export const metadata: Metadata = {
     title,
     description,
     siteName: "Jeferson Siqueira",
+    // Points at the copy made by scripts/copy-og-image.mjs: the file the
+    // convention emits has no extension, and static hosts type by extension.
+    images: [{ url: `${siteUrl}/og.png`, width: 1200, height: 630, alt: description }],
   },
-  twitter: { card: "summary_large_image", title, description },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    images: [`${siteUrl}/og.png`],
+  },
   robots: { index: true, follow: true },
 };
 
@@ -61,18 +71,34 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   // element before hydration, so the server and client markup differ by design.
   return (
     <html lang="pt" className={inter.variable} suppressHydrationWarning>
+      <head>
+        {/* Entrance animations ship their hidden state in the server-rendered
+            markup, so with scripting off the page would be blank. A <noscript>
+            block is only parsed when scripting is disabled, so this costs
+            everyone else nothing. */}
+        <noscript>
+          <style
+            dangerouslySetInnerHTML={{
+              __html: "[data-reveal]{opacity:1!important;transform:none!important}",
+            }}
+          />
+        </noscript>
+      </head>
       <body className="antialiased">
+        <PersonSchema />
         <Theme>
           <MotionConfig reducedMotion="user">
             <I18nProvider>
               {/* Fixed chrome lives outside the smooth wrapper: ScrollSmoother
               transforms its content, which would break `position: fixed`. */}
-              <Preloader />
-              <Cursor />
-              <AmbientBackground />
-              <ScrollProgress />
-              <Navbar />
-              <SectionRail />
+              <Chrome>
+                <Preloader />
+                <Cursor />
+                <AmbientBackground />
+                <ScrollProgress />
+                <Navbar />
+                <SectionRail />
+              </Chrome>
 
               <SmoothScroll>
                 <main>{children}</main>

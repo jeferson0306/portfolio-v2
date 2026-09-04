@@ -19,10 +19,15 @@ type RevealProps = {
  * the server and client render different inline styles, which React reports as a
  * hydration mismatch. Reduced motion is handled once, globally, by the
  * `<MotionConfig reducedMotion="user">` in the root layout.
+ *
+ * The hidden state ships in the server-rendered markup, so `data-reveal` exists
+ * for the `<noscript>` rule in globals.css to override — without it, a reader
+ * with JavaScript off would see an empty page.
  */
 export function Reveal({ children, index = 0, className }: RevealProps) {
   return (
     <motion.div
+      data-reveal
       className={className}
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}

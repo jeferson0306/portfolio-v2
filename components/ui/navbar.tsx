@@ -20,6 +20,7 @@ export function Navbar() {
   const links = [
     { href: "#trajectory", label: t.nav.trajectory },
     { href: "#work", label: t.nav.work },
+    { href: "#services", label: t.nav.services },
     { href: "#stack", label: t.nav.stack },
     { href: "#contact", label: t.nav.contact },
   ];
