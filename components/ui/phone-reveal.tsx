@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { Phone } from "lucide-react";
+import { MessageCircle, Phone } from "lucide-react";
 import { Flag } from "@/components/ui/flag";
-import { phones } from "@/lib/content";
+import { phones, whatsapp } from "@/lib/content";
 import { useI18n } from "@/lib/i18n/provider";
 
 /**
@@ -18,7 +18,10 @@ export function PhoneReveal() {
   const { t } = useI18n();
   const [revealed, setRevealed] = useState(false);
 
-  if (phones.length === 0) return null;
+  // The WhatsApp deep link carries the same number in its href, so it hides
+  // behind the same click — revealing one while publishing the other in the
+  // markup would defeat the point entirely.
+  if (phones.length === 0 && !whatsapp) return null;
 
   if (!revealed) {
     return (
@@ -35,22 +38,37 @@ export function PhoneReveal() {
   }
 
   return (
-    <ul className="mt-3 space-y-2">
-      {phones.map((phone) => (
-        <li key={phone.country}>
-          <a
-            href={phone.href}
-            data-cursor
-            className="inline-flex items-center gap-3 text-lg tracking-tight transition-opacity hover:opacity-70 sm:text-xl"
-          >
-            <Flag country={phone.country} />
-            {phone.label}
-            <span className="text-xs uppercase tracking-[0.2em] text-[var(--text-muted)]">
-              {t.footer.countries[phone.country]}
-            </span>
-          </a>
-        </li>
-      ))}
-    </ul>
+    <div className="mt-3 space-y-5">
+      <ul className="space-y-2">
+        {phones.map((phone) => (
+          <li key={phone.country}>
+            <a
+              href={phone.href}
+              data-cursor
+              className="inline-flex items-center gap-3 text-lg tracking-tight transition-opacity hover:opacity-70 sm:text-xl"
+            >
+              <Flag country={phone.country} />
+              {phone.label}
+              <span className="text-xs uppercase tracking-[0.2em] text-[var(--text-muted)]">
+                {t.footer.countries[phone.country]}
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      {whatsapp ? (
+        <a
+          href={whatsapp}
+          target="_blank"
+          rel="noreferrer noopener"
+          data-cursor-label="WhatsApp"
+          className="inline-flex items-center gap-2.5 rounded-full border border-[var(--border-strong)] px-6 py-3 text-sm font-medium transition-colors duration-300 hover:bg-[var(--text-primary)] hover:text-[var(--bg-body)]"
+        >
+          <MessageCircle className="h-4 w-4" />
+          {t.contact.whatsapp}
+        </a>
+      ) : null}
+    </div>
   );
 }

@@ -1,11 +1,11 @@
 "use client";
 
-import { Github, Linkedin, Mail, MessageCircle } from "lucide-react";
+import { Github, Linkedin, Mail } from "lucide-react";
 import { Reveal } from "@/components/motion/reveal";
 import { SplitHeading } from "@/components/motion/split-heading";
 import { ContactForm } from "@/components/ui/contact-form";
 import { PhoneReveal } from "@/components/ui/phone-reveal";
-import { contact, whatsapp } from "@/lib/content";
+import { contact } from "@/lib/content";
 import { useI18n } from "@/lib/i18n/provider";
 
 export function Footer() {
@@ -69,19 +69,6 @@ export function Footer() {
                 </p>
                 <PhoneReveal />
               </div>
-
-              {whatsapp ? (
-                <a
-                  href={whatsapp}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  data-cursor-label="WhatsApp"
-                  className="inline-flex items-center gap-2.5 rounded-full border border-[var(--border-strong)] px-6 py-3 text-sm font-medium transition-colors duration-300 hover:bg-[var(--text-primary)] hover:text-[var(--bg-body)]"
-                >
-                  <MessageCircle className="h-4 w-4" />
-                  {t.contact.whatsapp}
-                </a>
-              ) : null}
             </div>
           </Reveal>
         </div>
