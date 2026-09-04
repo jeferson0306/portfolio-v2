@@ -18,7 +18,12 @@ const BRANDS: { name: string; pattern: RegExp }[] = [
  * Luhn checksum: double every second digit from the right, subtract 9 from any
  * result above 9, and the total must be divisible by 10.
  */
+/** Same rule as the shared validators: separators are tolerated, letters are not.
+ *  Stripping them would let "4111111111111111zz" pass as a Visa. */
+const CARD_CHARS = /^[\d\-\s]*$/;
+
 export function passesLuhn(value: string): boolean {
+  if (!CARD_CHARS.test(value ?? "")) return false;
   const digits = onlyDigits(value);
   if (digits.length < 12 || digits.length > 19) return false;
 

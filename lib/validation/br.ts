@@ -7,9 +7,34 @@ export function onlyDigits(s: string): string {
   return (s || "").replace(/\D/g, "");
 }
 
+/**
+ * Guards the `isValid*` functions against input that is not a document at all.
+ *
+ * Stripping every non-digit and then validating what is left accepts
+ * "abc529.982.247-25" and "529.982.247-25jasasas" as valid CPFs, because the
+ * letters vanish before the check digits are computed. A validator that answers
+ * "valid" to that lets junk into a database.
+ *
+ * Only the characters a person legitimately types *around* the digits are
+ * tolerated; anything else is a rejection, not something to sanitise away.
+ *
+ * The `mask*` functions deliberately do NOT use this: a mask formats input as
+ * it is typed, where partial and messy values are expected. Validation decides;
+ * masking only presents.
+ */
+function hasOnlyAllowedChars(value: string, allowed: RegExp): boolean {
+  return allowed.test(value ?? "");
+}
+
+const CPF_CHARS = /^[\d.\-\s]*$/;
+const CNPJ_CHARS = /^[\d.\-/\s]*$/;
+const CEP_CHARS = /^[\d\-\s]*$/;
+const PHONE_CHARS = /^[\d+().\-\s]*$/;
+
 /* ------------------------------- CPF ------------------------------- */
 
 export function isValidCpf(value: string): boolean {
+  if (!hasOnlyAllowedChars(value, CPF_CHARS)) return false;
   const c = onlyDigits(value);
   if (c.length !== 11 || /^(\d)\1{10}$/.test(c)) return false;
   let sum = 0;
@@ -36,6 +61,7 @@ export function maskCpf(value: string): string {
 /* ------------------------------ CNPJ ------------------------------- */
 
 export function isValidCnpj(value: string): boolean {
+  if (!hasOnlyAllowedChars(value, CNPJ_CHARS)) return false;
   const c = onlyDigits(value);
   if (c.length !== 14 || /^(\d)\1{13}$/.test(c)) return false;
   const calc = (slice: string, weights: number[]) => {
@@ -66,6 +92,7 @@ export function maskCnpj(value: string): string {
 
 /** Brazilian phone: 10 digits (landline) or 11 (mobile, 9th digit = 9). */
 export function isValidPhone(value: string): boolean {
+  if (!hasOnlyAllowedChars(value, PHONE_CHARS)) return false;
   const d = onlyDigits(value);
   if (d.length !== 10 && d.length !== 11) return false;
   const ddd = parseInt(d.slice(0, 2), 10);
@@ -98,6 +125,7 @@ export function maskIdentifier(value: string, mode: "phone" | "cpf"): string {
 /* ------------------------------- CEP ------------------------------- */
 
 export function isValidCep(value: string): boolean {
+  if (!hasOnlyAllowedChars(value, CEP_CHARS)) return false;
   return onlyDigits(value).length === 8;
 }
 
