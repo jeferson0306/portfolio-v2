@@ -40,6 +40,19 @@ export function Skills() {
 
     const rows = Math.ceil(cells.length / columns);
 
+    // The wave carries into the backdrop, so the two read as one surface.
+    const backdropCells = document.querySelectorAll("[data-backdrop-cell]");
+    if (backdropCells.length) {
+      animate(backdropCells, {
+        opacity: [
+          { to: 0.85, duration: 260 },
+          { to: 0.35, duration: 620 },
+        ],
+        ease: "out(3)",
+        delay: stagger(26, { grid: [12, 6], from: index % 72 }),
+      });
+    }
+
     animate(grid.querySelectorAll("[data-skill-cell]"), {
       scale: [
         { to: 1.07, duration: 220 },
@@ -57,8 +70,21 @@ export function Skills() {
   return (
     <section
       id="stack"
+      data-backdrop="grid"
       className="relative z-10 mx-auto max-w-[1400px] px-6 py-32 lg:px-12 lg:py-48"
     >
+      {/* The backdrop is a grid of real elements, not a rendered one. It has
+          hard edges where the shader has none, and the ripple that runs through
+          the technology cells continues into it. */}
+      <div
+        aria-hidden
+        className="backdrop-grid pointer-events-none absolute inset-0 -z-10 grid grid-cols-6 grid-rows-6 overflow-hidden opacity-40 lg:grid-cols-12"
+      >
+        {Array.from({ length: 72 }).map((_, index) => (
+          <span key={index} data-backdrop-cell />
+        ))}
+      </div>
+
       <div className="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
         <div className="max-w-2xl">
           <Reveal>

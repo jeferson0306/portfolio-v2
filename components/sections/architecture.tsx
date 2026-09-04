@@ -82,6 +82,7 @@ export function Architecture() {
     <section
       id="architecture"
       ref={rootRef}
+      data-backdrop="diagram"
       className="relative z-10 border-t border-[var(--border)]"
     >
       <div className="mx-auto max-w-[1400px] px-6 py-32 lg:px-12 lg:py-48">
@@ -101,6 +102,37 @@ export function Architecture() {
             delay={0.15}
             className="mt-6 text-base leading-relaxed text-[var(--text-secondary)] sm:text-lg"
           />
+        </div>
+
+        {/* The backdrop is the diagram itself, scaled past the frame and dimmed
+            to a trace. Nothing else on the page has a background that *is* the
+            content — which is exactly why this section stops feeling like the
+            last one. */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 -z-10 flex items-center justify-center overflow-hidden"
+        >
+          <svg
+            viewBox="0 0 900 420"
+            className="h-auto w-[190%] max-w-none opacity-[0.06] blur-[1px]"
+            fill="none"
+            stroke="var(--text-primary)"
+            strokeWidth="1"
+          >
+            {diagramEdges.map(([from, to]) => (
+              <path key={`ghost-${from}-${to}`} d={edgePath(from, to)} />
+            ))}
+            {diagramNodes.map((node) => (
+              <rect
+                key={`ghost-${node.id}`}
+                x={node.x - NODE_WIDTH / 2}
+                y={node.y - NODE_HEIGHT / 2}
+                width={NODE_WIDTH}
+                height={NODE_HEIGHT}
+                rx="10"
+              />
+            ))}
+          </svg>
         </div>
 
         {/* Wide diagram scrolls inside its own box rather than the page. */}

@@ -93,21 +93,47 @@ export function Timeline() {
   useGSAP(
     () => {
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+      // Slower and further than the panel, so the two read as background and
+      // foreground rather than as one block moving together.
+      gsap.fromTo(
+        "[data-timeline-backdrop]",
+        { opacity: 0, xPercent: 4 },
+        { opacity: 0.035, xPercent: 0, duration: 1.1, ease: "power3.out" },
+      );
       gsap.fromTo(
         "[data-timeline-panel-content]",
         { opacity: 0, y: 18 },
         { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
       );
     },
-    { scope: panelRef, dependencies: [active], revertOnUpdate: true },
+    // Scoped to the section, not the panel: the backdrop year lives outside it.
+    { scope: rootRef, dependencies: [active], revertOnUpdate: true },
   );
 
   return (
     <section
       id="trajectory"
       ref={rootRef}
+      data-backdrop="type"
       className="relative z-10 mx-auto max-w-[1400px] px-6 py-32 lg:px-12 lg:py-48"
     >
+      {/* The backdrop here is the year itself, set past the frame and driven by
+          which entry is being read. Type at this size stops being text and
+          becomes texture — but texture that means something, which is the part
+          a noise function cannot do. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-10 hidden select-none items-center justify-end overflow-hidden lg:flex"
+      >
+        <span
+          data-timeline-backdrop
+          className="text-display -mr-[6vw] font-mono text-[34vw] font-medium leading-none text-[var(--text-primary)] opacity-[0.035]"
+        >
+          {current.start.year}
+        </span>
+      </div>
+
       <SectionIntro />
 
       <div className="mt-20 grid gap-12 lg:mt-28 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-20">

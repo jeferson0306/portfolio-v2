@@ -39,6 +39,7 @@ export const es: Dictionary = {
   brands: {
     eyebrow: "Prueba social",
     title: "Marcas e instituciones atendidas.",
+    nudge: "Arrástralas",
   },
   skills: {
     eyebrow: "Stack",

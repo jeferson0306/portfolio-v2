@@ -30,6 +30,8 @@ export type Dictionary = {
   brands: {
     eyebrow: string;
     title: string;
+    /** Invitation to push the pile around. */
+    nudge: string;
   };
   skills: {
     eyebrow: string;

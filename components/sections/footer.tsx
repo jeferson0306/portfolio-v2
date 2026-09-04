@@ -16,6 +16,7 @@ export function Footer() {
   return (
     <footer
       id="contact"
+      data-backdrop="field"
       className="relative z-10 border-t border-[var(--border)] bg-[var(--bg-surface)]/40"
     >
       <div className="mx-auto max-w-[1400px] px-6 py-32 lg:px-12 lg:py-40">

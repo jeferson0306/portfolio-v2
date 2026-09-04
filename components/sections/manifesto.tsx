@@ -5,10 +5,11 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 import { ScrambleTextPlugin } from "gsap/ScrambleTextPlugin";
+import { DrawSVGPlugin } from "gsap/DrawSVGPlugin";
 import { useGSAP } from "@gsap/react";
 import { useI18n } from "@/lib/i18n/provider";
 
-gsap.registerPlugin(ScrollTrigger, SplitText, ScrambleTextPlugin, useGSAP);
+gsap.registerPlugin(ScrollTrigger, SplitText, ScrambleTextPlugin, DrawSVGPlugin, useGSAP);
 
 /**
  * A single statement that lights up word by word as the section is scrolled
@@ -34,6 +35,16 @@ export function Manifesto() {
         if (role) role.textContent = t.manifesto.roles[0];
         return;
       }
+
+      gsap.fromTo(
+        "[data-manifesto-rule]",
+        { drawSVG: "0%" },
+        {
+          drawSVG: "100%",
+          ease: "none",
+          scrollTrigger: { trigger: rootRef.current, start: "top top", end: "+=140%", scrub: 0.5 },
+        },
+      );
 
       const split = SplitText.create(paragraph, {
         type: "words",
@@ -83,8 +94,29 @@ export function Manifesto() {
     <section
       id="manifesto"
       ref={rootRef}
+      data-backdrop="none"
       className="relative z-10 flex h-screen items-center overflow-hidden"
     >
+      {/* The only thing in an otherwise empty section: one line, drawn as you
+          arrive. After a page of atmosphere, restraint is the contrast. */}
+      <svg
+        aria-hidden
+        className="pointer-events-none absolute left-6 top-0 h-full w-px lg:left-12"
+        preserveAspectRatio="none"
+        viewBox="0 0 1 100"
+      >
+        <line
+          data-manifesto-rule
+          x1="0.5"
+          y1="0"
+          x2="0.5"
+          y2="100"
+          stroke="var(--border-strong)"
+          strokeWidth="1"
+          vectorEffect="non-scaling-stroke"
+        />
+      </svg>
+
       <div className="mx-auto w-full max-w-[1400px] px-6 lg:px-12">
         <p className="text-xs font-medium uppercase tracking-[0.25em] text-[var(--text-muted)]">
           {t.manifesto.eyebrow}

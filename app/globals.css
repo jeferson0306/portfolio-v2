@@ -259,3 +259,78 @@ body {
     margin: 16mm;
   }
 }
+
+/* --- Backdrop media ------------------------------------------------------
+   Each section declares what sits behind it. These rules are what make the
+   declaration mean something visually; the WebGL canvas fades to match in
+   components/motion/ambient-background.tsx. */
+
+/* Inverted. In a dark page this is a light section, and in a light page a dark
+   one — "the opposite of whatever the theme is" rather than a fixed colour, so
+   it stays the strongest contrast signal available in both. Hard edges, no
+   gradient: the jolt is the point. */
+[data-backdrop="paper"] {
+  --bg-body: #f3f3f1;
+  --bg-surface: #eaeae7;
+  --bg-elevated: #ffffff;
+  --text-primary: #0b0b0c;
+  --text-secondary: #45454b;
+  --text-muted: #8a8a92;
+  --border: rgba(0, 0, 0, 0.12);
+  --border-strong: rgba(0, 0, 0, 0.24);
+  --surface-raised: rgba(0, 0, 0, 0.03);
+  --surface-hover: rgba(0, 0, 0, 0.06);
+  --rule: rgba(0, 0, 0, 0.14);
+  --rule-strong: rgba(0, 0, 0, 0.7);
+  --mote: rgba(0, 0, 0, 0.4);
+
+  background-color: var(--bg-body);
+  color: var(--text-primary);
+  border-top: 1px solid var(--bg-body);
+  border-bottom: 1px solid var(--bg-body);
+}
+
+:root[data-theme="light"] [data-backdrop="paper"] {
+  --bg-body: #0b0b0c;
+  --bg-surface: #131315;
+  --bg-elevated: #1b1b1e;
+  --text-primary: #fafafa;
+  --text-secondary: #a8a8b0;
+  --text-muted: #6b6b74;
+  --border: rgba(255, 255, 255, 0.1);
+  --border-strong: rgba(255, 255, 255, 0.2);
+  --surface-raised: rgba(255, 255, 255, 0.03);
+  --surface-hover: rgba(255, 255, 255, 0.06);
+  --rule: rgba(255, 255, 255, 0.12);
+  --rule-strong: rgba(255, 255, 255, 0.7);
+  --mote: rgba(255, 255, 255, 0.4);
+}
+
+/* A tool, not a mood: an opaque ground and a hard monospace rule, with none of
+   the atmosphere the rest of the page runs on. */
+[data-backdrop="terminal"] {
+  background-color: #060607;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+:root[data-theme="light"] [data-backdrop="terminal"] {
+  background-color: #f7f7f5;
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+}
+
+/* Nothing. After a page of atmosphere, the absence is what registers. */
+[data-backdrop="none"] {
+  background-color: var(--bg-body);
+}
+
+/* A grid of real elements rather than a rendered one: crisp edges that stay
+   crisp at any zoom, and something the pointer can actually be over. */
+[data-backdrop="grid"] .backdrop-grid span {
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}

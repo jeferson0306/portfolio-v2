@@ -94,7 +94,11 @@ export function Playground() {
   };
 
   return (
-    <section id="playground" className="relative z-10 border-t border-[var(--border)]">
+    <section
+      id="playground"
+      data-backdrop="terminal"
+      className="relative z-10 border-t border-[var(--border)]"
+    >
       <div className="mx-auto max-w-[1400px] px-6 py-32 lg:px-12 lg:py-48">
         <div className="max-w-3xl">
           <Reveal>

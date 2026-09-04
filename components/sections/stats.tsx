@@ -15,7 +15,17 @@ export function Stats() {
 
   useGSAP(
     () => {
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      // Reduced motion means no counting, not no number. Returning early here
+      // left every figure reading "0" — an animation that fails open must fail
+      // to the truth, not to its starting frame.
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        gsap.utils.toArray<HTMLElement>("[data-stat]").forEach((element) => {
+          const output = element.querySelector<HTMLElement>("[data-stat-value]");
+          if (output) output.textContent = element.dataset.statTarget ?? "0";
+          gsap.set(element, { opacity: 1 });
+        });
+        return;
+      }
 
       // ScrollTrigger decides *when*; anime.js drives the count itself, because
       // its `modifier` keeps the rendered value an integer at every frame.
@@ -49,10 +59,7 @@ export function Stats() {
   );
 
   return (
-    <section
-      ref={rootRef}
-      className="relative z-10 border-y border-[var(--border)] bg-[var(--scrim-soft)] backdrop-blur-sm"
-    >
+    <section ref={rootRef} data-backdrop="paper" className="relative z-10">
       <div className="mx-auto max-w-[1400px] px-6 py-24 lg:px-12 lg:py-32">
         <p className="text-xs font-medium uppercase tracking-[0.25em] text-[var(--text-muted)]">
           {t.stats.eyebrow}

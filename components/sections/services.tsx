@@ -17,7 +17,7 @@ export function Services() {
   const { t } = useI18n();
 
   return (
-    <section id="services" className="relative z-10 border-t border-[var(--border)]">
+    <section id="services" data-backdrop="paper" className="relative z-10">
       <div className="mx-auto max-w-[1400px] px-6 py-32 lg:px-12 lg:py-48">
         <div className="max-w-3xl">
           <Reveal>

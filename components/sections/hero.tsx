@@ -59,6 +59,7 @@ export function Hero() {
     <section
       id="top"
       ref={sectionRef}
+      data-backdrop="field"
       className="grain relative flex h-screen items-center overflow-hidden"
       aria-label={t.hero.title}
     >

@@ -93,7 +93,12 @@ export function Projects() {
   );
 
   return (
-    <section id="work" ref={rootRef} className="relative z-10 overflow-hidden">
+    <section
+      id="work"
+      ref={rootRef}
+      data-backdrop="field"
+      className="relative z-10 overflow-hidden"
+    >
       <div className="mx-auto max-w-[1400px] px-6 pt-32 lg:px-12 lg:pt-40">
         <Reveal>
           <p className="text-xs font-medium uppercase tracking-[0.25em] text-[var(--text-muted)]">

@@ -21,6 +21,7 @@
     "framer-motion": "^12.23.12",
     "gsap": "^3.13.0",
     "lucide-react": "^0.544.0",
+    "matter-js": "^0.20.0",
     "next": "^16.2.9",
     "next-themes": "^0.4.6",
     "react": "^19.2.4",
@@ -29,6 +30,7 @@
     "three": "^0.180.0"
   },
   "devDependencies": {
+    "@types/matter-js": "^0.20.2",
     "@types/node": "^22.15.29",
     "@types/react": "^19.1.6",
     "@types/react-dom": "^19.1.3",
