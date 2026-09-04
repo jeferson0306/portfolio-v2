@@ -58,7 +58,7 @@ export const en: Dictionary = {
         "Travel booking platform built as independently deployable microservices: Quarkus, MongoDB, Kafka, event-driven architecture, full observability, IaC and CI/CD with real quality gates.",
       "product-recommendation-service":
         "Reactive product recommendation service with Spring Boot, WebFlux and Resilience4j — fault tolerance and low latency under load.",
-      "api-data-validator":
+      brdoc:
         "A Go API that validates and normalises Brazilian data — email, CPF, name, phone, RG, postcode and card — behind a single endpoint, cached in Redis.",
       "jay-crew":
         "A CLI published on npm: it scans any project, detects the stack and generates a structured briefing for AI assistants. No API key required.",
@@ -147,7 +147,7 @@ export const en: Dictionary = {
         "A booking platform built as nine independently deployable microservices, using the practices of a production team: domain-driven design, event-driven communication, infrastructure as code and a CI/CD pipeline with real quality gates.",
       "product-recommendation-service":
         "A reactive service that aggregates two slow external APIs (up to 1800ms and 800ms) and returns personalised recommendations under high concurrency, without exhausting the thread pool.",
-      "api-data-validator":
+      brdoc:
         "A Go service that validates the data any Brazilian form asks for. It accepts loose formats, sanitises the input and returns structured JSON — one endpoint, one parameter at a time.",
       "jay-crew":
         "A CLI that scans a project and produces a context file any AI assistant can act on: project tree, detected stack, dependencies and the agent definitions relevant to the task.",
@@ -167,7 +167,7 @@ export const en: Dictionary = {
         "Categories fetched in parallel with Flux.flatMap: total time becomes the slowest request, not the sum.",
         "Layered timeout, exponential-backoff retry and circuit breaker; a failing category returns partial results rather than failing the whole request.",
       ],
-      "api-data-validator": [
+      brdoc: [
         "CPF validated by its check digits, not merely by character count.",
         "Card numbers validated with Luhn, with the brand identified.",
         "CPF results cached in Redis — the check is deterministic, so it is cacheable.",

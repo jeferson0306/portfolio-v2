@@ -59,7 +59,7 @@ export const pt: Dictionary = {
         "Plataforma de reservas de viagens em microsserviços independentes: Quarkus, MongoDB, Kafka, arquitetura orientada a eventos, observabilidade completa, IaC e CI/CD com quality gates reais.",
       "product-recommendation-service":
         "Serviço reativo de recomendação de produtos com Spring Boot, WebFlux e Resilience4j — tolerância a falhas e latência baixa sob carga.",
-      "api-data-validator":
+      brdoc:
         "API em Go que valida e normaliza dados brasileiros — email, CPF, nome, telefone, RG, CEP e cartão — num único endpoint, com cache em Redis.",
       "jay-crew":
         "Ferramenta CLI publicada no npm: analisa qualquer projeto, deteta a stack e gera um briefing estruturado para assistentes de IA. Sem chave de API.",
@@ -148,7 +148,7 @@ export const pt: Dictionary = {
         "Plataforma de reservas construída como nove microsserviços implantáveis de forma independente, com as práticas de uma equipa de produção: domain-driven design, comunicação orientada a eventos, infraestrutura como código e um pipeline de CI/CD com quality gates a sério.",
       "product-recommendation-service":
         "Serviço reativo que agrega dois APIs externos lentos (até 1800ms e 800ms) e devolve recomendações personalizadas sob alta concorrência, sem esgotar o pool de threads.",
-      "api-data-validator":
+      brdoc:
         "Serviço em Go que valida os dados que qualquer formulário brasileiro pede. Aceita formatos flexíveis, sanitiza a entrada e devolve JSON estruturado — um endpoint, um parâmetro de cada vez.",
       "jay-crew":
         "CLI que varre um projeto e produz um ficheiro de contexto que qualquer assistente de IA consegue executar: árvore do projeto, stack detetada, dependências e as definições dos agentes relevantes para a tarefa.",
@@ -168,7 +168,7 @@ export const pt: Dictionary = {
         "Categorias procuradas em paralelo com Flux.flatMap: o tempo total passa a ser o do pedido mais lento, não a soma.",
         "Timeout, retry com backoff exponencial e circuit breaker em camadas; se uma categoria falha, devolve resultados parciais em vez de falhar tudo.",
       ],
-      "api-data-validator": [
+      brdoc: [
         "Validação de CPF com dígitos verificadores, não apenas contagem de caracteres.",
         "Cartão de crédito validado por Luhn, com identificação da bandeira.",
         "Resultados de CPF guardados em Redis — a verificação é determinística, logo cacheável.",

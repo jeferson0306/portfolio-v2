@@ -42,7 +42,7 @@ export function Playground() {
   });
 
   const live = validatorApi !== "";
-  const requestLine = `GET /validate?${field.param}=${encodeURIComponent(value)}`;
+  const requestLine = `GET /v1/validate?${field.param}=${encodeURIComponent(value)}`;
 
   const run = async () => {
     setState({ status: "running", source: null, valid: false, payload: null });
@@ -61,7 +61,7 @@ export function Playground() {
     );
 
     try {
-      const url = `${validatorApi.replace(/\/$/, "")}/validate?${field.param}=${encodeURIComponent(value)}`;
+      const url = `${validatorApi.replace(/\/$/, "")}/v1/validate?${field.param}=${encodeURIComponent(value)}`;
       const response = await fetch(url, { signal: AbortSignal.timeout(GIVE_UP_AFTER_MS) });
       // The service answers 422 for an invalid value and 400 for a bad request.
       // Those are answers, not failures — only a network error is a failure.

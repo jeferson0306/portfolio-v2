@@ -107,10 +107,10 @@ export const projects: Project[] = [
     href: "https://github.com/jeferson0306/product-recommendation-service",
   },
   {
-    id: "api-data-validator",
-    name: "Data Validator API",
+    id: "brdoc",
+    name: "brdoc",
     stack: ["Go", "Redis", "REST"],
-    href: "https://github.com/jeferson0306/api-data-validator",
+    href: "https://github.com/jeferson0306/brdoc",
   },
   {
     id: "jay-crew",
@@ -232,7 +232,7 @@ export const caseStudyMetrics: Record<string, CaseStudyMetric[]> = {
     { id: "latency", value: "2400 → 800ms" },
     { id: "breaker", value: "50% / 10" },
   ],
-  "api-data-validator": [
+  brdoc: [
     { id: "validators", value: "7" },
     { id: "cache", value: "Redis" },
     { id: "checksum", value: "Luhn" },
@@ -287,7 +287,7 @@ export const contactFormKey = process.env.NEXT_PUBLIC_WEB3FORMS_KEY ?? "";
 
 /**
  * Fields the console can check, mirroring the query parameters of the Go
- * service at github.com/jeferson0306/api-data-validator.
+ * service at github.com/jeferson0306/brdoc.
  */
 export type ValidatorField = { id: string; param: string; sample: string };
 
