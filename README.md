@@ -14,7 +14,7 @@ scroll rather than repeating one entrance animation:
 | Trajectory   | split layout with a pinned panel naming the entry being read            |
 | Metrics      | counters that run once on entry                                         |
 | Architecture | an SVG request path that draws itself along the scroll                  |
-| Brands       | a marquee whose speed and direction follow scroll velocity              |
+| Brands       | a physics arena — the names fall, pile up, and can be pushed around     |
 | Stack        | a grid that ripples outward from the hovered cell                       |
 | Work         | pinned horizontal scroll; cards morph into case studies with GSAP Flip  |
 
@@ -119,11 +119,37 @@ hero falls back to the live WebGL field, so the page never breaks.
 
 ## Deployment
 
-Every push to `main` runs `.github/workflows/deploy.yml`, which builds the static
-export and publishes it to GitHub Pages. `NEXT_PUBLIC_BASE_PATH` is set to the
-repository name at build time because project pages are served from a sub-path.
+The site is published twice, from this one source tree:
 
-**One-time setup:** in _Settings → Pages_, set **Source** to _GitHub Actions_.
+| URL                                          | Repository                            | Indexed |
+| -------------------------------------------- | ------------------------------------- | ------- |
+| https://jeferson0306.github.io/              | `jeferson0306/jeferson0306.github.io` | yes     |
+| https://jeferson0306.github.io/portfolio-v2/ | `jeferson0306/portfolio-v2`           | no      |
+
+The root is the address to give people. The sub-path copy exists so links
+already shared keep working; it sends `noindex, follow` and names the root as
+its canonical, because two indexed copies of one site compete with each other
+in search results.
+
+> **Pushing:** `git push origin main` updates only the sub-path copy.
+> To update both — which is almost always what you want:
+>
+> ```
+> git push origin main && git push root main
+> ```
+>
+> The `root` remote points at `jeferson0306.github.io`. If the root site ever
+> looks stale, this is why.
+
+Every push to `main` in either repository runs `.github/workflows/deploy.yml`,
+which builds the static export and publishes it to that repository's Pages. The
+same workflow file serves both: it reads the repository's own name, and a repo
+called `<owner>.github.io` is built for the domain root while anything else is
+built for `/<repo>`.
+
+**One-time setup** for a new copy: in _Settings → Pages_, set **Source** to
+_GitHub Actions_, and add the `NEXT_PUBLIC_*` repository variables listed under
+[Environment](#environment).
 
 To deploy to Vercel or Cloudflare Pages instead, point the project at this repo
 and leave `NEXT_PUBLIC_BASE_PATH` unset — the site is served from the domain

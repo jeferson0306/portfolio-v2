@@ -11,6 +11,11 @@ Personal portfolio for Jeferson Siqueira. Static site, no backend, no database.
   contract; a missing translation must fail `pnpm typecheck`.
 - Prettier: double quotes, semicolons. Run `pnpm format` before committing.
 - Conventional Commits. No `Co-Authored-By` lines.
+- **Two remotes.** This tree is published from two repositories: `origin`
+  (`portfolio-v2`, served at `/portfolio-v2`) and `root`
+  (`jeferson0306.github.io`, served at the domain root and the one that is
+  indexed). Push to both — `git push origin main && git push root main` — or the
+  live site people actually visit will silently fall behind.
 
 ## Architecture
 
