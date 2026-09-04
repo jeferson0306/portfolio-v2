@@ -20,8 +20,10 @@ Personal portfolio for Jeferson Siqueira. Static site, no backend, no database.
 - `components/sections/` — one file per page section.
 - `components/motion/` — shared animation primitives and the GLSL background.
 - `lib/content.ts` — facts. `lib/i18n/` — words.
-- `lib/background-moods.ts` — the scroll-keyed grades of the ambient field.
-  Adding a section usually means adding or moving a stop.
+- `lib/background-moods.ts` — the scroll-keyed stops of the ambient field. Each
+  stop names a _scene_ (an index into the `scene()` branch in
+  `cinematic-shader.ts`), not only a grade. Adding a section usually means
+  adding or moving a stop.
 - `lib/tech-icons.ts` — **generated**, do not edit. Run `pnpm icons` after
   changing the stack list; `simple-icons` is a devDependency precisely so its
   ~3000 icons never reach the client bundle.
@@ -45,6 +47,16 @@ Personal portfolio for Jeferson Siqueira. Static site, no backend, no database.
   panel is open.
 - `position: fixed` resolves against the transformed `#smooth-content`, not the
   viewport. Overlays must be portalled to `document.body`.
+
+## Theming
+
+- The palette lives entirely in CSS variables on `:root` and `[data-theme="light"]`.
+  **Never write a literal colour in a component** — no `bg-white`, no `bg-black/60`.
+  Use the semantic tokens (`--surface-raised`, `--scrim`, `--rule`, `--mote`).
+  The one exception is the cursor, which sits under `mix-blend-difference`.
+- The WebGL field reads `document.documentElement.dataset.theme` directly and
+  inverts. Its `uInvert` uniform is **seeded** from the theme at mount, not
+  eased up from zero, or a light page flashes a black field on the first frame.
 
 ## React gotchas already paid for
 

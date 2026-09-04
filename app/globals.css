@@ -5,6 +5,8 @@
    but the palette is intentionally near-monochrome so imagery carries the colour.
 --------------------------------------------------------------------------- */
 :root {
+  color-scheme: dark;
+
   --bg-body: #000000;
   --bg-surface: #0a0a0a;
   --bg-elevated: #121212;
@@ -15,6 +17,63 @@
   --border: rgba(255, 255, 255, 0.08);
   --border-strong: rgba(255, 255, 255, 0.16);
   --glow: rgba(255, 255, 255, 0.6);
+
+  /* Semantic surfaces: the page never writes a literal white or black, so a
+     theme swap is a change of these values and nothing else. */
+  --surface-raised: rgba(255, 255, 255, 0.02);
+  --surface-hover: rgba(255, 255, 255, 0.05);
+  --scrim: rgba(0, 0, 0, 0.6);
+  --scrim-strong: rgba(0, 0, 0, 0.8);
+  --scrim-soft: rgba(0, 0, 0, 0.4);
+  --rule: rgba(255, 255, 255, 0.1);
+  --rule-strong: rgba(255, 255, 255, 0.7);
+  --mote: rgba(255, 255, 255, 0.45);
+
+  /* Hero: the clip is dark smoke, so the light theme dims it and reverses the
+     gradient that sits over it. */
+  --hero-clip-opacity: 0.7;
+  --hero-overlay: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.72) 0%,
+    rgba(0, 0, 0, 0.28) 45%,
+    rgba(0, 0, 0, 0.94) 100%
+  );
+  --hero-scrim: #000000;
+  --shine: linear-gradient(180deg, #ffffff 25%, rgba(255, 255, 255, 0.45) 100%);
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+
+  --bg-body: #fbfbfa;
+  --bg-surface: #f4f4f3;
+  --bg-elevated: #ffffff;
+  --text-primary: #0b0b0c;
+  --text-secondary: #52525b;
+  --text-muted: #9a9aa2;
+  --accent: #18181b;
+  --border: rgba(0, 0, 0, 0.1);
+  --border-strong: rgba(0, 0, 0, 0.2);
+  --glow: rgba(0, 0, 0, 0.4);
+
+  --surface-raised: rgba(0, 0, 0, 0.03);
+  --surface-hover: rgba(0, 0, 0, 0.06);
+  --scrim: rgba(251, 251, 250, 0.7);
+  --scrim-strong: rgba(251, 251, 250, 0.85);
+  --scrim-soft: rgba(251, 251, 250, 0.5);
+  --rule: rgba(0, 0, 0, 0.12);
+  --rule-strong: rgba(0, 0, 0, 0.7);
+  --mote: rgba(0, 0, 0, 0.4);
+
+  --hero-clip-opacity: 0.24;
+  --hero-overlay: linear-gradient(
+    180deg,
+    rgba(251, 251, 250, 0.66) 0%,
+    rgba(251, 251, 250, 0.4) 45%,
+    rgba(251, 251, 250, 0.96) 100%
+  );
+  --hero-scrim: #fbfbfa;
+  --shine: linear-gradient(180deg, #0b0b0c 25%, rgba(11, 11, 12, 0.5) 100%);
 }
 
 @theme inline {
@@ -60,11 +119,11 @@ body {
   background: var(--bg-body);
 }
 ::-webkit-scrollbar-thumb {
-  background: #27272a;
+  background: var(--border-strong);
   border-radius: 999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #3f3f46;
+  background: var(--text-muted);
 }
 
 /* --- Utilities ----------------------------------------------------------- */
@@ -81,9 +140,9 @@ body {
    positioned child elements, and the clip no longer reaches them. A luminance
    mask reproduces the same top-to-bottom falloff and is inherited correctly. */
 .text-shine {
-  color: #ffffff;
-  -webkit-mask-image: linear-gradient(180deg, #ffffff 25%, rgba(255, 255, 255, 0.45) 100%);
-  mask-image: linear-gradient(180deg, #ffffff 25%, rgba(255, 255, 255, 0.45) 100%);
+  color: var(--text-primary);
+  -webkit-mask-image: linear-gradient(180deg, #000 25%, rgba(0, 0, 0, 0.45) 100%);
+  mask-image: linear-gradient(180deg, #000 25%, rgba(0, 0, 0, 0.45) 100%);
 }
 
 /* Hairline separator that fades at both ends. */
@@ -133,5 +192,31 @@ body {
   }
   100% {
     transform: translateY(400%);
+  }
+}
+
+/* --- Theme transition ----------------------------------------------------
+   The View Transitions API cross-fades both snapshots by default, which reads
+   as a dip to grey. Disabling the built-in animation lets the toggle drive a
+   clip-path wipe on the incoming theme instead. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
   }
 }

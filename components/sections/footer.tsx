@@ -83,7 +83,7 @@ export function Footer() {
               target="_blank"
               rel="noreferrer noopener"
               aria-label="LinkedIn"
-              className="rounded-full border border-[var(--border)] p-3 transition-colors duration-300 hover:border-[var(--border-strong)] hover:bg-white/[0.04]"
+              className="rounded-full border border-[var(--border)] p-3 transition-colors duration-300 hover:border-[var(--border-strong)] hover:bg-[var(--surface-hover)]"
             >
               <Linkedin className="h-4 w-4" />
             </a>
@@ -92,7 +92,7 @@ export function Footer() {
               target="_blank"
               rel="noreferrer noopener"
               aria-label="GitHub"
-              className="rounded-full border border-[var(--border)] p-3 transition-colors duration-300 hover:border-[var(--border-strong)] hover:bg-white/[0.04]"
+              className="rounded-full border border-[var(--border)] p-3 transition-colors duration-300 hover:border-[var(--border-strong)] hover:bg-[var(--surface-hover)]"
             >
               <Github className="h-4 w-4" />
             </a>

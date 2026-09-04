@@ -67,7 +67,7 @@ export function CaseStudyPanel({ projectId, onClose }: CaseStudyPanelProps) {
         data-case-backdrop
         // Opaque by default: the fade-in is an enhancement, so the scrim must
         // still be there when animation is switched off or JavaScript fails.
-        className="fixed inset-0 h-full w-full cursor-default bg-black/80 backdrop-blur-xl"
+        className="fixed inset-0 h-full w-full cursor-default bg-[var(--scrim-strong)] backdrop-blur-xl"
       />
 
       <div className="relative mx-auto min-h-full w-full max-w-5xl px-6 py-16 lg:px-10 lg:py-24">
@@ -85,7 +85,7 @@ export function CaseStudyPanel({ projectId, onClose }: CaseStudyPanelProps) {
               onClick={onClose}
               data-cursor
               aria-label={t.caseStudy.close}
-              className="rounded-full border border-[var(--border)] p-2.5 transition-colors duration-300 hover:border-[var(--border-strong)] hover:bg-white/[0.06]"
+              className="rounded-full border border-[var(--border)] p-2.5 transition-colors duration-300 hover:border-[var(--border-strong)] hover:bg-[var(--surface-hover)]"
             >
               <X className="h-4 w-4" />
             </button>
@@ -119,7 +119,10 @@ export function CaseStudyPanel({ projectId, onClose }: CaseStudyPanelProps) {
                 key={highlight}
                 className="flex gap-4 leading-relaxed text-[var(--text-secondary)]"
               >
-                <span aria-hidden className="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-white/45" />
+                <span
+                  aria-hidden
+                  className="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-[var(--mote)]"
+                />
                 {highlight}
               </li>
             ))}
@@ -142,7 +145,7 @@ export function CaseStudyPanel({ projectId, onClose }: CaseStudyPanelProps) {
               target="_blank"
               rel="noreferrer noopener"
               data-cursor-label="GitHub"
-              className="inline-flex items-center gap-2 rounded-full border border-[var(--border-strong)] px-6 py-3 text-sm font-medium transition-colors duration-300 hover:bg-white hover:text-black"
+              className="inline-flex items-center gap-2 rounded-full border border-[var(--border-strong)] px-6 py-3 text-sm font-medium transition-colors duration-300 hover:bg-[var(--text-primary)] hover:text-[var(--bg-body)]"
             >
               {t.projects.view}
               <ArrowUpRight className="h-4 w-4" />

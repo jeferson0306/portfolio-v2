@@ -56,7 +56,7 @@ export function Brands() {
           <span className="text-2xl font-medium tracking-tight text-[var(--text-muted)] transition-colors duration-500 hover:text-[var(--text-primary)] sm:text-4xl lg:text-5xl">
             {brand}
           </span>
-          <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-white/20" />
+          <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-[var(--border-strong)]" />
         </li>
       ))}
     </ul>

@@ -60,8 +60,8 @@ export function SectionRail() {
               aria-hidden
               className={`h-px transition-all duration-500 ${
                 isActive
-                  ? "w-8 bg-white"
-                  : "w-3 bg-white/25 group-hover:w-6 group-hover:bg-white/60"
+                  ? "w-8 bg-[var(--text-primary)]"
+                  : "w-3 bg-[var(--border-strong)] group-hover:w-6 group-hover:bg-[var(--rule-strong)]"
               }`}
             />
             <span

@@ -107,6 +107,18 @@ export const projects: Project[] = [
     href: "https://github.com/jeferson0306/product-recommendation-service",
   },
   {
+    id: "api-data-validator",
+    name: "Data Validator API",
+    stack: ["Go", "Redis", "REST"],
+    href: "https://github.com/jeferson0306/api-data-validator",
+  },
+  {
+    id: "jay-crew",
+    name: "Jay Crew",
+    stack: ["TypeScript", "CLI", "npm"],
+    href: "https://github.com/jeferson0306/jay-crew",
+  },
+  {
     id: "portfolio-v2",
     name: "Portfolio v2",
     stack: ["Next.js", "GSAP", "Three.js", "Tailwind"],
@@ -124,6 +136,7 @@ export type Phone = {
 
 export const phones: Phone[] = [
   { country: "pt", label: "+351 961 796 687", href: "tel:+351961796687" },
+  { country: "br", label: "+55 61 99194-6758", href: "tel:+5561991946758" },
 ];
 
 export const contact = {
@@ -199,6 +212,16 @@ export const caseStudyMetrics: Record<string, CaseStudyMetric[]> = {
     { id: "latency", value: "2400 → 800ms" },
     { id: "breaker", value: "50% / 10" },
   ],
+  "api-data-validator": [
+    { id: "validators", value: "7" },
+    { id: "cache", value: "Redis" },
+    { id: "checksum", value: "Luhn" },
+  ],
+  "jay-crew": [
+    { id: "frameworks", value: "200+" },
+    { id: "versions", value: "5" },
+    { id: "apiKeys", value: "0" },
+  ],
   "portfolio-v2": [
     { id: "languages", value: "3" },
     { id: "clip", value: "1.3 MB" },
@@ -209,4 +232,5 @@ export const caseStudyMetrics: Record<string, CaseStudyMetric[]> = {
 /** Optional public deployment, linked from the case study panel. */
 export const caseStudyDemos: Record<string, string> = {
   "travel-platform": "https://aerostay-jeferson0306s-projects.vercel.app",
+  "jay-crew": "https://www.npmjs.com/package/jay-crew",
 };

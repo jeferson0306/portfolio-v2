@@ -155,7 +155,7 @@ function ProjectCard({ index, project, hidden, onOpen }: ProjectCardProps) {
       data-flip-id={hidden ? undefined : `project-${project.id}`}
       onMouseMove={handleMouseMove}
       style={{ visibility: hidden ? "hidden" : undefined }}
-      className="group relative flex h-full w-full shrink-0 flex-col overflow-hidden rounded-3xl border border-[var(--border)] bg-white/[0.02] p-8 transition-colors duration-500 hover:border-[var(--border-strong)] lg:w-[46vw] lg:p-12"
+      className="group relative flex h-full w-full shrink-0 flex-col overflow-hidden rounded-3xl border border-[var(--border)] bg-[var(--surface-raised)] p-8 transition-colors duration-500 hover:border-[var(--border-strong)] lg:w-[46vw] lg:p-12"
     >
       <span
         aria-hidden
@@ -206,7 +206,7 @@ function ProjectCard({ index, project, hidden, onOpen }: ProjectCardProps) {
         type="button"
         onClick={(event) => onOpen(project.id, event.currentTarget)}
         data-cursor-label={t.caseStudy.open}
-        className="relative mt-10 self-start rounded-full border border-[var(--border-strong)] px-6 py-3 text-sm font-medium transition-colors duration-300 hover:bg-white hover:text-black"
+        className="relative mt-10 self-start rounded-full border border-[var(--border-strong)] px-6 py-3 text-sm font-medium transition-colors duration-300 hover:bg-[var(--text-primary)] hover:text-[var(--bg-body)]"
       >
         {t.caseStudy.open}
       </button>

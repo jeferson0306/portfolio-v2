@@ -133,9 +133,9 @@ export function Timeline() {
         <div data-timeline-list className="relative">
           <div
             aria-hidden
-            className="absolute left-[7px] top-2 hidden h-[calc(100%-1rem)] w-px bg-white/10 sm:block lg:left-0"
+            className="absolute left-[7px] top-2 hidden h-[calc(100%-1rem)] w-px bg-[var(--rule)] sm:block lg:left-0"
           >
-            <div data-timeline-rail className="h-full w-full origin-top bg-white/70" />
+            <div data-timeline-rail className="h-full w-full origin-top bg-[var(--rule-strong)]" />
           </div>
 
           <ol className="space-y-16 sm:space-y-20">
@@ -144,7 +144,7 @@ export function Timeline() {
                 <span
                   aria-hidden
                   className={`absolute left-0 top-2 hidden h-[13px] w-[13px] rounded-full transition-colors duration-500 sm:block lg:-left-[6px] ${
-                    index === active ? "bg-white" : "bg-zinc-700"
+                    index === active ? "bg-[var(--text-primary)]" : "bg-[var(--text-muted)]"
                   }`}
                 />
 

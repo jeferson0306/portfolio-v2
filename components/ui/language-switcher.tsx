@@ -8,7 +8,7 @@ export function LanguageSwitcher() {
 
   return (
     <div
-      className="flex items-center gap-1 rounded-full border border-[var(--border)] bg-white/[0.03] p-1 backdrop-blur"
+      className="flex items-center gap-1 rounded-full border border-[var(--border)] bg-[var(--surface-raised)] p-1 backdrop-blur"
       role="group"
       aria-label={t.language}
     >
@@ -23,7 +23,7 @@ export function LanguageSwitcher() {
             aria-label={localeNames[option]}
             className={`rounded-full px-2.5 py-1 text-[11px] font-medium uppercase tracking-widest transition-colors duration-300 ${
               active
-                ? "bg-white text-black"
+                ? "bg-[var(--text-primary)] text-black"
                 : "text-[var(--text-muted)] hover:text-[var(--text-primary)]"
             }`}
           >

@@ -13,7 +13,7 @@ export function Flag({ country, className }: FlagProps) {
     <span
       role="img"
       aria-label={label}
-      className={`inline-block h-[14px] w-[20px] shrink-0 overflow-hidden rounded-[3px] ring-1 ring-white/15 ${className ?? ""}`}
+      className={`inline-block h-[14px] w-[20px] shrink-0 overflow-hidden rounded-[3px] ring-1 ring-[var(--border-strong)] ${className ?? ""}`}
     >
       {country === "br" ? (
         <svg viewBox="0 0 20 14" className="h-full w-full" aria-hidden focusable="false">

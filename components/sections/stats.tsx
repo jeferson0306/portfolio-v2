@@ -51,7 +51,7 @@ export function Stats() {
   return (
     <section
       ref={rootRef}
-      className="relative z-10 border-y border-[var(--border)] bg-black/40 backdrop-blur-sm"
+      className="relative z-10 border-y border-[var(--border)] bg-[var(--scrim-soft)] backdrop-blur-sm"
     >
       <div className="mx-auto max-w-[1400px] px-6 py-24 lg:px-12 lg:py-32">
         <p className="text-xs font-medium uppercase tracking-[0.25em] text-[var(--text-muted)]">

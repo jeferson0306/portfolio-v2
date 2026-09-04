@@ -57,6 +57,10 @@ export const en: Dictionary = {
         "Travel booking platform built as independently deployable microservices: Quarkus, MongoDB, Kafka, event-driven architecture, full observability, IaC and CI/CD with real quality gates.",
       "product-recommendation-service":
         "Reactive product recommendation service with Spring Boot, WebFlux and Resilience4j — fault tolerance and low latency under load.",
+      "api-data-validator":
+        "A Go API that validates and normalises Brazilian data — email, CPF, name, phone, RG, postcode and card — behind a single endpoint, cached in Redis.",
+      "jay-crew":
+        "A CLI published on npm: it scans any project, detects the stack and generates a structured briefing for AI assistants. No API key required.",
       "portfolio-v2":
         "This site. Next.js with static export, scroll-driven GSAP animations and a WebGL three-dimensional background.",
     },
@@ -124,6 +128,12 @@ export const en: Dictionary = {
       concurrency: "Concurrent requests",
       latency: "Aggregation latency",
       breaker: "Circuit breaker threshold",
+      validators: "Validators behind one endpoint",
+      cache: "Cache layer",
+      checksum: "Checksum algorithm",
+      frameworks: "Frameworks detected",
+      versions: "Versions published",
+      apiKeys: "API keys required",
       languages: "Languages supported",
       clip: "Hero clip weight",
       servers: "Servers required",
@@ -133,6 +143,10 @@ export const en: Dictionary = {
         "A booking platform built as nine independently deployable microservices, using the practices of a production team: domain-driven design, event-driven communication, infrastructure as code and a CI/CD pipeline with real quality gates.",
       "product-recommendation-service":
         "A reactive service that aggregates two slow external APIs (up to 1800ms and 800ms) and returns personalised recommendations under high concurrency, without exhausting the thread pool.",
+      "api-data-validator":
+        "A Go service that validates the data any Brazilian form asks for. It accepts loose formats, sanitises the input and returns structured JSON — one endpoint, one parameter at a time.",
+      "jay-crew":
+        "A CLI that scans a project and produces a context file any AI assistant can act on: project tree, detected stack, dependencies and the agent definitions relevant to the task.",
       "portfolio-v2":
         "This site. A serverless static export with scroll-linked animation and a background clip generated locally — no paid services, no licensed footage.",
     },
@@ -149,6 +163,18 @@ export const en: Dictionary = {
         "Categories fetched in parallel with Flux.flatMap: total time becomes the slowest request, not the sum.",
         "Layered timeout, exponential-backoff retry and circuit breaker; a failing category returns partial results rather than failing the whole request.",
       ],
+      "api-data-validator": [
+        "CPF validated by its check digits, not merely by character count.",
+        "Card numbers validated with Luhn, with the brand identified.",
+        "CPF results cached in Redis — the check is deterministic, so it is cacheable.",
+        "Names normalised: accents stripped, invalid characters filtered, spaces collapsed.",
+      ],
+      "jay-crew": [
+        "Automatic stack detection across 200+ frameworks, including monorepos and multi-service layouts.",
+        "Makes no external calls and asks for no API key — it is the framing; the model is yours.",
+        "Published on npm under MIT, five versions shipped.",
+        "The output is a single Markdown file, readable by a human before it is handed to a machine.",
+      ],
       "portfolio-v2": [
         "The hero clip is rendered locally with Node and ffmpeg from the same GLSL shader as the WebGL background.",
         "A keyframe every 5 frames in the encode — that is what makes scroll-scrubbing seek instantly.",
@@ -158,4 +184,5 @@ export const en: Dictionary = {
     },
   },
   language: "Language",
+  theme: "Toggle theme",
 };

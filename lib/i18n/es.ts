@@ -57,6 +57,10 @@ export const es: Dictionary = {
         "Plataforma de reservas de viajes en microservicios desplegables de forma independiente: Quarkus, MongoDB, Kafka, arquitectura orientada a eventos, observabilidad completa, IaC y CI/CD con quality gates reales.",
       "product-recommendation-service":
         "Servicio reactivo de recomendación de productos con Spring Boot, WebFlux y Resilience4j — tolerancia a fallos y baja latencia bajo carga.",
+      "api-data-validator":
+        "API en Go que valida y normaliza datos brasileños — email, CPF, nombre, teléfono, RG, código postal y tarjeta — en un solo endpoint, con caché en Redis.",
+      "jay-crew":
+        "CLI publicada en npm: analiza cualquier proyecto, detecta el stack y genera un briefing estructurado para asistentes de IA. Sin clave de API.",
       "portfolio-v2":
         "Este sitio. Next.js con exportación estática, animaciones ligadas al scroll con GSAP y fondo tridimensional en WebGL.",
     },
@@ -125,6 +129,12 @@ export const es: Dictionary = {
       concurrency: "Peticiones simultáneas",
       latency: "Latencia de agregación",
       breaker: "Umbral del circuit breaker",
+      validators: "Validadores en un solo endpoint",
+      cache: "Capa de caché",
+      checksum: "Algoritmo de verificación",
+      frameworks: "Frameworks detectados",
+      versions: "Versiones publicadas",
+      apiKeys: "Claves de API necesarias",
       languages: "Idiomas soportados",
       clip: "Peso del vídeo del hero",
       servers: "Servidores necesarios",
@@ -134,6 +144,10 @@ export const es: Dictionary = {
         "Plataforma de reservas construida como nueve microservicios desplegables de forma independiente, con las prácticas de un equipo de producción: domain-driven design, comunicación orientada a eventos, infraestructura como código y un pipeline de CI/CD con quality gates de verdad.",
       "product-recommendation-service":
         "Servicio reactivo que agrega dos APIs externas lentas (hasta 1800ms y 800ms) y devuelve recomendaciones personalizadas bajo alta concurrencia, sin agotar el pool de hilos.",
+      "api-data-validator":
+        "Servicio en Go que valida los datos que pide cualquier formulario brasileño. Acepta formatos flexibles, sanea la entrada y devuelve JSON estructurado — un endpoint, un parámetro cada vez.",
+      "jay-crew":
+        "CLI que recorre un proyecto y produce un archivo de contexto que cualquier asistente de IA puede ejecutar: árbol del proyecto, stack detectado, dependencias y las definiciones de los agentes relevantes.",
       "portfolio-v2":
         "Este sitio. Exportación estática sin servidor, con animaciones ligadas al scroll y un vídeo de fondo generado localmente — sin servicios de pago ni material licenciado.",
     },
@@ -150,6 +164,18 @@ export const es: Dictionary = {
         "Categorías obtenidas en paralelo con Flux.flatMap: el tiempo total pasa a ser el de la petición más lenta, no la suma.",
         "Timeout, retry con backoff exponencial y circuit breaker por capas; si una categoría falla, devuelve resultados parciales en lugar de fallar todo.",
       ],
+      "api-data-validator": [
+        "CPF validado por sus dígitos verificadores, no solo por el número de caracteres.",
+        "Tarjetas validadas con Luhn, identificando la marca.",
+        "Resultados de CPF cacheados en Redis — la verificación es determinista, luego cacheable.",
+        "Nombres normalizados: acentos eliminados, caracteres inválidos filtrados, espacios colapsados.",
+      ],
+      "jay-crew": [
+        "Detección automática de stack sobre más de 200 frameworks, incluidos monorepos y multi-servicio.",
+        "No hace llamadas externas ni pide clave de API — es el marco; el modelo lo pones tú.",
+        "Publicado en npm bajo licencia MIT, con cinco versiones lanzadas.",
+        "La salida es un único archivo Markdown, legible por una persona antes de dárselo a una máquina.",
+      ],
       "portfolio-v2": [
         "El vídeo del hero se renderiza localmente con Node y ffmpeg a partir del mismo shader GLSL del fondo WebGL.",
         "Un keyframe cada 5 fotogramas en el encode — eso es lo que hace instantáneo el scrubbing por scroll.",
@@ -159,4 +185,5 @@ export const es: Dictionary = {
     },
   },
   language: "Idioma",
+  theme: "Cambiar tema",
 };

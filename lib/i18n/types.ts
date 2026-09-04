@@ -89,4 +89,5 @@ export type Dictionary = {
     highlights: Record<string, string[]>;
   };
   language: string;
+  theme: string;
 };

@@ -100,7 +100,7 @@ export function Skills() {
                 setHovered(cell.item);
                 ripple(index);
               }}
-              className="relative flex h-28 items-center justify-center rounded-xl border border-[var(--border)] bg-white/[0.02] px-3 text-center will-change-transform lg:h-36"
+              className="relative flex h-28 items-center justify-center rounded-xl border border-[var(--border)] bg-[var(--surface-raised)] px-3 text-center will-change-transform lg:h-36"
               style={{ borderColor: "rgba(255,255,255,0.08)" }}
             >
               {/* Family index: without it the fifteen cells read as one
@@ -108,7 +108,9 @@ export function Skills() {
               <span
                 aria-hidden
                 className={`absolute left-3 top-3 font-mono text-[10px] tracking-widest transition-colors duration-300 ${
-                  activeGroup === cell.group ? "text-[var(--text-secondary)]" : "text-white/20"
+                  activeGroup === cell.group
+                    ? "text-[var(--text-secondary)]"
+                    : "text-[var(--text-muted)] opacity-50"
                 }`}
               >
                 {String(skillGroups.findIndex((group) => group.id === cell.group) + 1).padStart(

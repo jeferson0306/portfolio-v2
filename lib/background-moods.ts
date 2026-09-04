@@ -1,7 +1,7 @@
 /**
- * The ambient background is one continuous field whose grade, density and
- * motion change as the page is scrolled, so the sections do not all sit on an
- * identical backdrop.
+ * The ambient background changes *kind* as the page is scrolled, not only
+ * colour: smoke, then near-emptiness, then sediment seams, a blueprint rule, a
+ * dot lattice and finally curtains of light.
  *
  * Each stop is a target at a scroll position; the shader reads a value
  * interpolated between the two surrounding stops, which is what keeps the
@@ -10,7 +10,19 @@
  * Saturation is deliberately low throughout — these are grades of the same
  * dark room, not different rooms.
  */
+/** Scene index; must match the `scene()` branch in cinematic-shader.ts. */
+export const Scene = {
+  Smoke: 0,
+  Void: 1,
+  Strata: 2,
+  Blueprint: 3,
+  Lattice: 4,
+  Aurora: 5,
+} as const;
+
 export type BackgroundMood = {
+  /** Which field is drawn at this stop, not merely how it is graded. */
+  scene: number;
   /** Scroll progress, 0 at the top of the document, 1 at the bottom. */
   at: number;
   /** Colour the empty field settles to. */
@@ -28,65 +40,71 @@ export type BackgroundMood = {
 };
 
 export const backgroundMoods: BackgroundMood[] = [
-  // Hero — cool smoke, the densest the page gets before the stack section.
+  // Hero — cool smoke, the densest the page gets.
   {
     at: 0.0,
+    scene: Scene.Smoke,
     base: [0.012, 0.014, 0.02],
     haze: [0.4, 0.45, 0.6],
-    density: 0.55,
+    density: 0.58,
     scale: 1.0,
     grid: 0,
     speed: 1.0,
   },
-  // Manifesto — thinned right out so the statement has the frame to itself.
+  // Manifesto — almost empty, so the statement has the frame to itself.
   {
-    at: 0.16,
+    at: 0.17,
+    scene: Scene.Void,
     base: [0.01, 0.011, 0.016],
-    haze: [0.3, 0.34, 0.46],
-    density: 0.3,
+    haze: [0.32, 0.36, 0.48],
+    density: 0.4,
     scale: 0.7,
     grid: 0,
-    speed: 0.65,
+    speed: 0.6,
   },
-  // Trajectory — warmer graphite, the only place the field leaves blue.
+  // Trajectory — sediment seams: layers laid down one on top of another.
   {
-    at: 0.36,
+    at: 0.37,
+    scene: Scene.Strata,
     base: [0.017, 0.016, 0.014],
-    haze: [0.54, 0.49, 0.42],
+    haze: [0.56, 0.5, 0.42],
     density: 0.5,
-    scale: 1.2,
+    scale: 1.15,
     grid: 0,
-    speed: 0.9,
+    speed: 0.85,
   },
-  // Architecture — the haze recedes and a faint blueprint grid surfaces.
+  // Architecture — a technical rule under a technical drawing.
   {
-    at: 0.56,
+    at: 0.57,
+    scene: Scene.Blueprint,
     base: [0.008, 0.014, 0.021],
-    haze: [0.24, 0.44, 0.58],
-    density: 0.26,
-    scale: 1.1,
-    grid: 1.0,
-    speed: 0.5,
+    haze: [0.22, 0.42, 0.58],
+    density: 0.34,
+    scale: 1.0,
+    grid: 0.35,
+    speed: 0.45,
   },
-  // Stack — denser and faster, with a violet cast under the technology grid.
+  // Stack — a dot lattice pulsing behind the technology grid.
   {
     at: 0.78,
-    base: [0.018, 0.013, 0.025],
-    haze: [0.5, 0.4, 0.68],
-    density: 0.6,
-    scale: 1.45,
-    grid: 0.2,
-    speed: 1.25,
+    scene: Scene.Lattice,
+    base: [0.016, 0.012, 0.024],
+    haze: [0.46, 0.38, 0.66],
+    density: 0.42,
+    scale: 1.3,
+    grid: 0,
+    speed: 1.1,
   },
-  // Work and contact — settles back down to close the page.
+  // Work and contact — curtains of light to close the page.
   {
     at: 1.0,
+    scene: Scene.Aurora,
     base: [0.01, 0.012, 0.02],
-    haze: [0.34, 0.4, 0.58],
-    density: 0.46,
-    scale: 0.9,
+    haze: [0.36, 0.42, 0.62],
+    density: 0.55,
+    scale: 0.95,
     grid: 0,
-    speed: 0.8,
+    speed: 0.75,
   },
 ];
 
@@ -94,6 +112,10 @@ const smoothstep = (t: number) => t * t * (3 - 2 * t);
 const mix = (a: number, b: number, t: number) => a + (b - a) * t;
 
 export type MoodValues = {
+  /** The two scenes to evaluate, and how far between them we are. */
+  sceneA: number;
+  sceneB: number;
+  sceneBlend: number;
   base: [number, number, number];
   haze: [number, number, number];
   density: number;
@@ -116,6 +138,9 @@ export function moodAt(progress: number): MoodValues {
   const t = smoothstep(span === 0 ? 0 : (clamped - from.at) / span);
 
   return {
+    sceneA: from.scene,
+    sceneB: to.scene,
+    sceneBlend: t,
     base: [
       mix(from.base[0], to.base[0], t),
       mix(from.base[1], to.base[1], t),

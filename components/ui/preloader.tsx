@@ -85,7 +85,11 @@ export function Preloader() {
     <div ref={rootRef} className="fixed inset-0 z-[100] flex items-end justify-between">
       <div aria-hidden className="absolute inset-0 flex">
         {Array.from({ length: 5 }).map((_, index) => (
-          <span key={index} data-preloader-panel className="h-full flex-1 origin-top bg-black" />
+          <span
+            key={index}
+            data-preloader-panel
+            className="h-full flex-1 origin-top bg-[var(--bg-body)]"
+          />
         ))}
       </div>
 

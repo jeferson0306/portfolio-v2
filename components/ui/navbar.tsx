@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { LanguageSwitcher } from "./language-switcher";
+import { ThemeToggle } from "./theme-toggle";
 import { useI18n } from "@/lib/i18n/provider";
 
 export function Navbar() {
@@ -29,7 +30,7 @@ export function Navbar() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
       className={`fixed inset-x-0 top-0 z-50 transition-colors duration-500 ${
-        scrolled ? "border-b border-[var(--border)] bg-black/60 backdrop-blur-xl" : ""
+        scrolled ? "border-b border-[var(--border)] bg-[var(--scrim)] backdrop-blur-xl" : ""
       }`}
     >
       <nav className="mx-auto flex max-w-[1400px] items-center justify-between px-6 py-4 lg:px-12">
@@ -52,7 +53,10 @@ export function Navbar() {
           ))}
         </div>
 
-        <LanguageSwitcher />
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          <LanguageSwitcher />
+        </div>
       </nav>
     </motion.header>
   );

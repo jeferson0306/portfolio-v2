@@ -10,6 +10,9 @@ const PARTICLE_COUNT = 1200;
 
 /** Reused so the per-frame colour lerp allocates nothing. */
 const scratchColor = new THREE.Color();
+
+const isLightTheme = () =>
+  typeof document !== "undefined" && document.documentElement.dataset.theme === "light";
 const FIELD_RADIUS = 9;
 
 /** Fullscreen volumetric haze. Sits behind everything else in the canvas. */
@@ -28,6 +31,12 @@ function HazePlane() {
       uDensity: { value: 0.55 },
       uScale: { value: 1 },
       uGrid: { value: 0 },
+      uSceneA: { value: 0 },
+      uSceneB: { value: 0 },
+      uSceneBlend: { value: 0 },
+      // Seeded from the theme in force, not from zero: easing up from dark would
+      // flash a black field behind a light page on the first frame.
+      uInvert: { value: isLightTheme() ? 1 : 0 },
     }),
     [],
   );
@@ -58,6 +67,18 @@ function HazePlane() {
     material.uniforms.uDensity.value += (mood.density - material.uniforms.uDensity.value) * ease;
     material.uniforms.uScale.value += (mood.scale - material.uniforms.uScale.value) * ease;
     material.uniforms.uGrid.value += (mood.grid - material.uniforms.uGrid.value) * ease;
+
+    // Scene indices switch instantly; only the blend between them is animated,
+    // which is what makes one field dissolve into the next.
+    material.uniforms.uSceneA.value = mood.sceneA;
+    material.uniforms.uSceneB.value = mood.sceneB;
+    material.uniforms.uSceneBlend.value = mood.sceneBlend;
+
+    // Theme changes are eased rather than applied, so the field turns over
+    // instead of flipping.
+    const invertTarget = isLightTheme() ? 1 : 0;
+    material.uniforms.uInvert.value +=
+      (invertTarget - material.uniforms.uInvert.value) * (1 - Math.pow(0.004, delta));
 
     void state;
   });
@@ -112,6 +133,14 @@ function Particles() {
     // where they read as vertices rather than dust.
     material.opacity += (0.14 + mood.density * 0.26 + mood.grid * 0.22 - material.opacity) * ease;
 
+    // In the light theme white dust would be invisible, so the motes darken.
+    const light = isLightTheme();
+    material.color.lerp(
+      scratchColor.setRGB(light ? 0.1 : 1, light ? 0.11 : 1, light ? 0.14 : 1),
+      ease,
+    );
+    material.blending = light ? THREE.NormalBlending : THREE.AdditiveBlending;
+
     points.rotation.y += delta * 0.03 * mood.speed;
 
     // Ease toward the pointer instead of snapping, so the parallax feels heavy.
@@ -129,7 +158,7 @@ function Particles() {
       </bufferGeometry>
       <pointsMaterial
         size={0.02}
-        color="#ffffff"
+        color={isLightTheme() ? "#1a1a1f" : "#ffffff"}
         transparent
         opacity={0.5}
         sizeAttenuation

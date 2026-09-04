@@ -66,9 +66,10 @@ export function Hero() {
         {/* Footage layer — stays hidden until the file is confirmed to exist. */}
         <video
           ref={videoRef}
-          className={`h-full w-full object-cover transition-opacity duration-1000 ${
-            hasVideo ? "opacity-70" : "opacity-0"
-          }`}
+          className="h-full w-full object-cover transition-opacity duration-1000"
+          // The clip is dark smoke, so the light theme dims it rather than
+          // fighting it — the value lives with the rest of the palette.
+          style={{ opacity: hasVideo ? "var(--hero-clip-opacity)" : 0 }}
           src={assetPath("/media/hero.mp4")}
           poster={assetPath("/media/hero-poster.jpg")}
           muted
@@ -86,9 +87,15 @@ export function Hero() {
       {/* Legibility overlay, plus a scrim that closes in as the hero scrolls away. */}
       <div
         aria-hidden
-        className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.72)_0%,rgba(0,0,0,0.28)_45%,rgba(0,0,0,0.94)_100%)]"
+        className="absolute inset-0"
+        style={{ backgroundImage: "var(--hero-overlay)" }}
       />
-      <div data-hero-scrim aria-hidden className="absolute inset-0 bg-black opacity-0" />
+      <div
+        data-hero-scrim
+        aria-hidden
+        className="absolute inset-0 opacity-0"
+        style={{ backgroundColor: "var(--hero-scrim)" }}
+      />
 
       <div className="relative mx-auto w-full max-w-[1400px] px-6 lg:px-12">
         <div data-hero-content className="max-w-5xl">
@@ -123,7 +130,7 @@ export function Hero() {
             <a
               href="#trajectory"
               data-cursor
-              className="group inline-flex items-center gap-3 rounded-full border border-[var(--border-strong)] px-7 py-3.5 text-sm font-medium transition-colors duration-300 hover:bg-white hover:text-black"
+              className="group inline-flex items-center gap-3 rounded-full border border-[var(--border-strong)] px-7 py-3.5 text-sm font-medium transition-colors duration-300 hover:bg-[var(--text-primary)] hover:text-[var(--bg-body)]"
             >
               {t.hero.cta}
               <ArrowDown className="h-4 w-4 transition-transform duration-300 group-hover:translate-y-0.5" />
@@ -139,8 +146,8 @@ export function Hero() {
         <span className="text-[10px] uppercase tracking-[0.3em] text-[var(--text-muted)]">
           {t.hero.scroll}
         </span>
-        <span aria-hidden className="relative h-10 w-px overflow-hidden bg-white/15">
-          <span className="absolute inset-x-0 top-0 h-4 animate-[scrollHint_2s_ease-in-out_infinite] bg-white/70" />
+        <span aria-hidden className="relative h-10 w-px overflow-hidden bg-[var(--rule)]">
+          <span className="absolute inset-x-0 top-0 h-4 animate-[scrollHint_2s_ease-in-out_infinite] bg-[var(--rule-strong)]" />
         </span>
       </div>
     </section>

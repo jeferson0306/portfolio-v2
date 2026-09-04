@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import { MotionConfig } from "framer-motion";
 import "./globals.css";
 import { I18nProvider } from "@/lib/i18n/provider";
+import { Theme } from "@/components/providers/theme";
 import { SmoothScroll } from "@/components/providers/smooth-scroll";
 import { AmbientBackground } from "@/components/motion/ambient-background";
 import { Navbar } from "@/components/ui/navbar";
@@ -56,25 +57,29 @@ export const viewport: Viewport = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  // `suppressHydrationWarning`: next-themes writes `data-theme` on the html
+  // element before hydration, so the server and client markup differ by design.
   return (
-    <html lang="pt" className={inter.variable}>
+    <html lang="pt" className={inter.variable} suppressHydrationWarning>
       <body className="antialiased">
-        <MotionConfig reducedMotion="user">
-          <I18nProvider>
-            {/* Fixed chrome lives outside the smooth wrapper: ScrollSmoother
+        <Theme>
+          <MotionConfig reducedMotion="user">
+            <I18nProvider>
+              {/* Fixed chrome lives outside the smooth wrapper: ScrollSmoother
               transforms its content, which would break `position: fixed`. */}
-            <Preloader />
-            <Cursor />
-            <AmbientBackground />
-            <ScrollProgress />
-            <Navbar />
-            <SectionRail />
+              <Preloader />
+              <Cursor />
+              <AmbientBackground />
+              <ScrollProgress />
+              <Navbar />
+              <SectionRail />
 
-            <SmoothScroll>
-              <main>{children}</main>
-            </SmoothScroll>
-          </I18nProvider>
-        </MotionConfig>
+              <SmoothScroll>
+                <main>{children}</main>
+              </SmoothScroll>
+            </I18nProvider>
+          </MotionConfig>
+        </Theme>
       </body>
     </html>
   );
