@@ -46,6 +46,7 @@ jobs:
           NEXT_PUBLIC_PHONE_BR: ${{ vars.NEXT_PUBLIC_PHONE_BR }}
           NEXT_PUBLIC_WHATSAPP: ${{ vars.NEXT_PUBLIC_WHATSAPP }}
           NEXT_PUBLIC_WEB3FORMS_KEY: ${{ vars.NEXT_PUBLIC_WEB3FORMS_KEY }}
+          NEXT_PUBLIC_VALIDATOR_API: ${{ vars.NEXT_PUBLIC_VALIDATOR_API }}
           NEXT_PUBLIC_SITE_URL: ${{ steps.pages.outputs.base_url || format('https://{0}.github.io/{1}', github.repository_owner, github.event.repository.name) }}
         run: pnpm build
 

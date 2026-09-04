@@ -50,11 +50,10 @@ Personal portfolio for Jeferson Siqueira. Static site, no backend, no database.
 
 ## The API console
 
-`NEXT_PUBLIC_VALIDATOR_API` points the console at the deployed Go service. It is
-**deliberately unset**: the service at api-data-validator.onrender.com sends no
-`Access-Control-Allow-Origin`, so a browser on the published site is blocked and
-every call would silently fall back — while the badge claimed the service had
-answered. Set the variable only once the service sends CORS headers.
+`NEXT_PUBLIC_VALIDATOR_API` points the console at the deployed Go service, which
+now sends `Access-Control-Allow-Origin` for this site. Unset it and the console
+falls back to the local rules and says so — that fallback is the contract, not a
+workaround.
 
 The live path treats 400 and 422 as answers, not failures: the service uses them
 for "bad request" and "invalid value". Only a network error or a timeout falls
