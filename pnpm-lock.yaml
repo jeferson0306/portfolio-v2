@@ -66,6 +66,9 @@ importers:
       '@types/three':
         specifier: ^0.180.0
         version: 0.180.0
+      country-flag-icons:
+        specifier: ^1.6.20
+        version: 1.6.20
       prettier:
         specifier: ^3.9.6
         version: 3.9.6
@@ -512,6 +515,9 @@ packages:
 
   client-only@0.0.1:
     resolution: {integrity: sha512-IV3Ou0jSMzZrd3pZ48nLkT9DA7Ag1pnPzaiQhpW7c3RbcqqzvzzVu+L8gfqMp/8IM2MQtSiqaCxrrcfu8I8rMA==}
+
+  country-flag-icons@1.6.20:
+    resolution: {integrity: sha512-py8JiEKzjhYw6HPJ0L7SxLgCYim36UPRTZX43/kqGueUCZLSvnrqAiwW8HtQibur7mdkFQUkjOgdK+o/9FBtaw==}
 
   csstype@3.2.3:
     resolution: {integrity: sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==}
@@ -1122,6 +1128,8 @@ snapshots:
   caniuse-lite@1.0.30001810: {}
 
   client-only@0.0.1: {}
+
+  country-flag-icons@1.6.20: {}
 
   csstype@3.2.3: {}
 
