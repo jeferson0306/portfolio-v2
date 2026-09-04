@@ -181,6 +181,7 @@ export const sectionIds = [
   "stack",
   "work",
   "playground",
+  "notes",
   "services",
   "contact",
 ] as const;
@@ -304,3 +305,39 @@ export const validatorFields: ValidatorField[] = [
  * rules in the browser. Unset, it stays honest about running locally.
  */
 export const validatorApi = process.env.NEXT_PUBLIC_VALIDATOR_API ?? "";
+
+/**
+ * Technical notes. The prose lives in the dictionaries, keyed by `id`; what is
+ * here is the part that does not get translated.
+ */
+export type Note = {
+  id: string;
+  /** ISO date the work described actually happened. */
+  date: string;
+  tags: string[];
+  /** Where the reader can check the claim for themselves. */
+  source: string;
+};
+
+export const notes: Note[] = [
+  {
+    id: "slow-upstream",
+    date: "2026-06-25",
+    tags: ["WebFlux", "Resilience4j", "Caffeine"],
+    source: "https://github.com/jeferson0306/product-recommendation-service",
+  },
+  {
+    id: "chaos-finding",
+    date: "2026-07-23",
+    tags: ["k6", "Toxiproxy", "Kubernetes"],
+    source:
+      "https://github.com/jeferson0306/travel-platform/blob/main/docs/adr/0015-load-and-chaos-testing.md",
+  },
+  {
+    id: "hero-video",
+    date: "2026-09-03",
+    tags: ["ffmpeg", "GLSL", "GSAP"],
+    source:
+      "https://github.com/jeferson0306/portfolio-v2/blob/main/scripts/generate-hero-video.mjs",
+  },
+];

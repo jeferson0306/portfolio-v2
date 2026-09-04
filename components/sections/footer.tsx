@@ -6,6 +6,7 @@ import { SplitHeading } from "@/components/motion/split-heading";
 import { ContactForm } from "@/components/ui/contact-form";
 import { PhoneReveal } from "@/components/ui/phone-reveal";
 import { contact } from "@/lib/content";
+import { mailtoLink } from "@/lib/contact-links";
 import { useI18n } from "@/lib/i18n/provider";
 
 export function Footer() {
@@ -54,7 +55,7 @@ export function Footer() {
                   {t.footer.email}
                 </p>
                 <a
-                  href={`mailto:${contact.email}`}
+                  href={mailtoLink(t)}
                   data-cursor
                   className="mt-3 inline-flex items-center gap-3 text-lg tracking-tight transition-opacity hover:opacity-70 sm:text-xl"
                 >

@@ -121,6 +121,12 @@ export type Dictionary = {
     fallback: string;
     whatsapp: string;
     revealPhone: string;
+    /** Subject line pre-filled on the mailto link. */
+    mailSubject: string;
+    /** Body pre-filled on the mailto link, so nobody starts from a blank page. */
+    mailBody: string;
+    /** Message pre-filled on the WhatsApp deep link. */
+    whatsappText: string;
   };
   playground: {
     eyebrow: string;
@@ -145,6 +151,16 @@ export type Dictionary = {
     projects: string;
     clients: string;
     download: string;
+  };
+  notes: {
+    eyebrow: string;
+    title: string;
+    lead: string;
+    read: string;
+    collapse: string;
+    source: string;
+    /** Keyed by \`Note.id\`. */
+    entries: Record<string, { title: string; dek: string; body: string[]; takeaway: string }>;
   };
   language: string;
   theme: string;

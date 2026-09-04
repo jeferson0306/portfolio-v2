@@ -4,6 +4,7 @@ import { useState, type FormEvent } from "react";
 import { animate } from "animejs";
 import { ArrowUpRight, Check, Loader2 } from "lucide-react";
 import { contact, contactFormKey } from "@/lib/content";
+import { mailtoLink } from "@/lib/contact-links";
 import { useI18n } from "@/lib/i18n/provider";
 
 type Status = "idle" | "sending" | "sent" | "failed";
@@ -23,7 +24,7 @@ export function ContactForm() {
   if (!contactFormKey) {
     return (
       <a
-        href={`mailto:${contact.email}`}
+        href={mailtoLink(t)}
         data-cursor
         className="inline-flex items-center gap-2 rounded-full border border-[var(--border-strong)] px-6 py-3 text-sm font-medium transition-colors duration-300 hover:bg-[var(--text-primary)] hover:text-[var(--bg-body)]"
       >
@@ -136,7 +137,7 @@ export function ContactForm() {
         {status === "failed" ? (
           <span role="alert" className="text-sm text-[var(--text-secondary)]">
             {t.contact.failed}{" "}
-            <a href={`mailto:${contact.email}`} className="underline underline-offset-4">
+            <a href={mailtoLink(t)} className="underline underline-offset-4">
               {contact.email}
             </a>
           </span>

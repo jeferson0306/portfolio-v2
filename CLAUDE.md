@@ -48,6 +48,17 @@ Personal portfolio for Jeferson Siqueira. Static site, no backend, no database.
 - `position: fixed` resolves against the transformed `#smooth-content`, not the
   viewport. Overlays must be portalled to `document.body`.
 
+## Notes
+
+`lib/notes.ts` data lives in `lib/content.ts`; the prose is in the dictionaries,
+in all three languages. Every claim in a note is traceable to the repository it
+links to — several come from the travel-platform ADRs. **Do not add a note whose
+detail cannot be checked against committed work.**
+
+The bodies stay in the DOM when collapsed (they are the most valuable text on
+the site for search) and are made `inert` instead, so focus and screen readers
+never enter a closed section.
+
 ## Data that must not be committed
 
 Phone numbers, the WhatsApp handle and the Web3Forms key come from

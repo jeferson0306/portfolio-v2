@@ -2,6 +2,7 @@
 
 import { Printer } from "lucide-react";
 import { brands, contact, experiences, phones, projects, skillGroups } from "@/lib/content";
+import { mailtoLink } from "@/lib/contact-links";
 import { formatPeriod } from "@/lib/format";
 import { useI18n } from "@/lib/i18n/provider";
 
@@ -35,7 +36,7 @@ export function CurriculumVitae() {
 
         <ul className="mt-5 flex flex-wrap gap-x-5 gap-y-1.5 text-sm text-[var(--text-secondary)]">
           <li>
-            <a href={`mailto:${contact.email}`}>{contact.email}</a>
+            <a href={mailtoLink(t)}>{contact.email}</a>
           </li>
           {phones.map((phone) => (
             <li key={phone.country}>

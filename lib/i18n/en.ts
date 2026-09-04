@@ -95,6 +95,7 @@ export const en: Dictionary = {
     stack: "Stack",
     work: "Work",
     playground: "Try it",
+    notes: "Notes",
     services: "Services",
     contact: "Contact",
   },
@@ -245,6 +246,10 @@ export const en: Dictionary = {
     fallback: "Write by email",
     whatsapp: "Talk on WhatsApp",
     revealPhone: "Show number",
+    mailSubject: "Enquiry from your portfolio",
+    mailBody:
+      "Hi Jeferson,\n\nI came across your portfolio and would like to talk about a project.\n\nWhat I need:\n\nRough timeline:\n\nThanks,\n",
+    whatsappText: "Hi Jeferson! I came from your portfolio and would like to talk about a project.",
   },
   playground: {
     eyebrow: "Try it",
@@ -275,6 +280,55 @@ export const en: Dictionary = {
     projects: "Projects",
     clients: "Brands and institutions",
     download: "View CV",
+  },
+  notes: {
+    eyebrow: "Notes",
+    title: "What building this taught me.",
+    lead: "Short notes on real decisions, each linked to the code where you can check it for yourself.",
+    read: "Read",
+    collapse: "Close",
+    source: "View the source",
+    entries: {
+      "slow-upstream": {
+        title: "The slow upstream that could not be allowed to block a thread",
+        dek: "Two external APIs at 1800ms and 800ms, a thousand concurrent requests, and a thread pool that did not go far enough.",
+        body: [
+          "The service aggregates two external APIs. The profile one takes up to 1800ms to answer, the catalogue one up to 800ms. None of that is the service's fault — it is what sits on the other side of the network, and it will not change because I need it to.",
+          "Under a thread-per-request model, a thousand concurrent requests are a thousand threads parked on I/O. The pool exhausts and the service stops answering while sitting almost idle: it is not short of CPU, it is short of threads. WebFlux on Netty attacks that at the root — non-blocking I/O across a handful of event-loop threads.",
+          "Then there is what you can simply decline to wait for. A user typically has three preferred categories; fetched in sequence that is 3 × 800ms = 2400ms. With Flux.flatMap the three go in parallel and the total becomes the slowest single request rather than the sum.",
+          "The cache cannot have one TTL. Profiles change roughly once a week and are expensive to fetch: 30 minutes. Catalogue prices and stock change by the minute: 2 minutes. A TTL is a claim about how fresh the data has to be, not a round number picked for comfort.",
+          "Resilience comes in layers, and the order matters: a WebClient timeout (5s for profiles, 2s for products), retry with exponential backoff, and a circuit breaker that opens at a 50% failure rate across a sliding window of 10 requests. When a category still fails after the retries, the service returns the rest rather than throwing away the whole request.",
+        ],
+        takeaway:
+          "Partial results are worth more than a complete error. The user does not notice the category that was missing; they notice that the page opened.",
+      },
+      "chaos-finding": {
+        title: "The chaos run found the wrong bug — which was the point",
+        dek: "I injected latency to watch the circuit breaker open. What surfaced was a failure no unit test could have caught.",
+        body: [
+          "Until that point, nothing had brought all eight services up together. Each had its own local loop and its own integration tests against Testcontainers, but the gateway had never spoken to real instances of the other seven on one network.",
+          "I picked k6 over Gatling, running in Docker: JavaScript test scripts fit a polyglot repository better, and the official image means nothing has to be installed on the machine. Two scripts, not one — public search is cheap read traffic to ramp hard, while the write path runs the full saga and has registration's bcrypt as its bottleneck. Conflating them would have made the numbers unreadable.",
+          'For the chaos scenario, a 3000ms latency toxic on flight-service, chosen because it is a plain idempotent GET behind the gateway and therefore easy to read before and after. Latency rather than a connection reset, because "the backend is alive but degraded" is exactly the case the circuit breaker exists for. The 3000ms deliberately exceeds the 2000ms idempotent timeout.',
+          "The breaker behaved. What I was not looking for turned up alongside it: the gateway's per-IP rate limiter treats a thousand real users behind one NAT exactly as it would treat a single abusive client. No unit or integration test could have found that — they do not generate concurrent traffic from distinct clients.",
+          "I did not fix it there. Changing the rate limiter's key, to the JWT sub claim for instance, is a design decision with its own trade-offs and does not belong inside a testing milestone. It was recorded as a known limitation, with the measured number next to it.",
+        ],
+        takeaway:
+          "A load test is worth less for the number it produces than for the question about the system nobody had thought to ask.",
+      },
+      "hero-video": {
+        title: "A background video with no generation service",
+        dek: "The AI service's subscription had lapsed. The volumetric field already existed in GLSL — it only had to be rendered outside the browser.",
+        body: [
+          "This site's hero needed a clip driven by the scroll. The generation service was inactive and paying was not an option. But the page's own WebGL background already draws a volumetric field; the same field only had to run in Node and hand its frames to ffmpeg.",
+          "The first result looked like marble rather than smoke: high-frequency noise everywhere and a 12 MB file. The mistake was one line. GLSL's fract always returns a positive value; JavaScript's % keeps the sign of the dividend. The noise gradients came out at double amplitude and skewed.",
+          "With that fixed, the same encode fell to 4 MB — the encoder had been spending bits describing random noise. Lowering the frequency and amplitude of the domain warp took it to 1.3 MB, and the field started reading as slow smoke instead of polished stone.",
+          "The detail that makes scrubbing work is not the bitrate, it is the keyframe interval. Seeking to an arbitrary instant forces the decoder to start from the previous keyframe; with a keyframe every five frames the jump is immediate. An all-intra encode solves it too, and costs the same 12 MB.",
+          "The grain was deliberately left out of the encode. Adding it in ffmpeg hands the encoder random noise to describe and costs megabytes; the same texture comes from a CSS overlay for nothing.",
+        ],
+        takeaway:
+          "Before paying for a service, it is worth asking whether the result already exists on the machine. Here it did — it only had to be exported.",
+      },
+    },
   },
   language: "Language",
   theme: "Toggle theme",

@@ -95,6 +95,7 @@ export const es: Dictionary = {
     stack: "Stack",
     work: "Trabajo",
     playground: "Pruébalo",
+    notes: "Notas",
     services: "Servicios",
     contact: "Contacto",
   },
@@ -246,6 +247,10 @@ export const es: Dictionary = {
     fallback: "Escribir por email",
     whatsapp: "Hablar por WhatsApp",
     revealPhone: "Ver número",
+    mailSubject: "Contacto desde tu portfolio",
+    mailBody:
+      "Hola Jeferson,\n\nLlegué a tu portfolio y me gustaría hablar sobre un proyecto.\n\nLo que necesito:\n\nPlazo aproximado:\n\nGracias,\n",
+    whatsappText: "¡Hola Jeferson! Vengo de tu portfolio y me gustaría hablar sobre un proyecto.",
   },
   playground: {
     eyebrow: "Pruébalo",
@@ -276,6 +281,55 @@ export const es: Dictionary = {
     projects: "Proyectos",
     clients: "Marcas e instituciones",
     download: "Ver CV",
+  },
+  notes: {
+    eyebrow: "Notas",
+    title: "Lo que aprendí construyendo esto.",
+    lead: "Notas breves sobre decisiones reales, cada una con el enlace al código donde se puede comprobar.",
+    read: "Leer",
+    collapse: "Cerrar",
+    source: "Ver la fuente",
+    entries: {
+      "slow-upstream": {
+        title: "El upstream lento que no podía bloquear un hilo",
+        dek: "Dos APIs externas a 1800ms y 800ms, mil peticiones simultáneas y un pool de hilos que no daba abasto.",
+        body: [
+          "El servicio agrega dos APIs externas. La de perfiles tarda hasta 1800ms en responder, la de catálogo hasta 800ms. Nada de eso es culpa del servicio — es lo que hay al otro lado de la red, y no va a cambiar porque yo lo necesite.",
+          "Con un modelo de hilo por petición, mil peticiones simultáneas son mil hilos parados esperando I/O. El pool se agota y el servicio deja de responder estando casi ocioso: no le falta CPU, le faltan hilos. WebFlux sobre Netty ataca eso de raíz — I/O no bloqueante sobre un puñado de hilos de event loop.",
+          "Luego está lo que sencillamente se puede no esperar. Un usuario suele tener tres categorías preferidas; en secuencia son 3 × 800ms = 2400ms. Con Flux.flatMap las tres van en paralelo y el total pasa a ser la petición más lenta, no la suma.",
+          "La caché no puede tener un único TTL. Los perfiles cambian más o menos una vez por semana y son caros de obtener: 30 minutos. Los precios y el stock del catálogo cambian por minutos: 2 minutos. Un TTL es una afirmación sobre la frescura que exigen los datos, no un número redondo elegido por comodidad.",
+          "La resiliencia viene por capas, y el orden importa: timeout en el WebClient (5s para perfiles, 2s para productos), retry con backoff exponencial y un circuit breaker que abre al 50% de fallos en una ventana deslizante de 10 peticiones. Cuando una categoría falla incluso tras los reintentos, el servicio devuelve las demás en lugar de tirar la petición entera.",
+        ],
+        takeaway:
+          "Los resultados parciales valen más que un error completo. El usuario no nota la categoría que faltó; nota que la página abrió.",
+      },
+      "chaos-finding": {
+        title: "La prueba de caos encontró el bug equivocado — y ahí estuvo el valor",
+        dek: "Inyecté latencia para ver abrir el circuit breaker. Lo que apareció fue un fallo que ninguna prueba unitaria podía haber detectado.",
+        body: [
+          "Hasta ese momento, nada había levantado los ocho servicios a la vez. Cada uno tenía su ciclo local y sus pruebas de integración con Testcontainers, pero el gateway nunca había hablado con instancias reales de los otros siete en una misma red.",
+          "Elegí k6 en lugar de Gatling, corriendo en Docker: los scripts en JavaScript encajan mejor en un repositorio políglota, y la imagen oficial evita instalar nada en la máquina. Dos scripts, no uno — la búsqueda pública es tráfico de lectura barato de exigir, y el camino de escritura recorre la saga completa, con el bcrypt del registro como cuello de botella. Mezclarlos habría hecho ilegibles los números.",
+          "Para el caos, una toxina de latencia de 3000ms sobre flight-service, elegido por ser un GET idempotente tras el gateway y por tanto fácil de leer antes y después. Latencia, y no corte de conexión, porque «el backend está vivo pero degradado» es justamente el caso para el que existe el circuit breaker. Los 3000ms superan a propósito el timeout de 2000ms.",
+          "El breaker se comportó. Lo que no buscaba apareció al lado: el rate limiter por IP del gateway trata a mil usuarios reales tras un mismo NAT igual que trataría a un único cliente abusivo. Ninguna prueba unitaria o de integración podía haberlo encontrado — no generan tráfico concurrente de clientes distintos.",
+          "No lo arreglé allí. Cambiar la clave del rate limiter, por ejemplo al campo sub del JWT, es una decisión de diseño con sus propias contrapartidas y no pertenece a un milestone de pruebas. Quedó registrada como limitación conocida, con el número medido al lado.",
+        ],
+        takeaway:
+          "Una prueba de carga vale menos por el número que produce que por la pregunta que nadie había pensado en hacerle al sistema.",
+      },
+      "hero-video": {
+        title: "Un vídeo de fondo sin servicio de generación",
+        dek: "El servicio de IA tenía la suscripción caducada. El campo volumétrico ya existía en GLSL — solo había que renderizarlo fuera del navegador.",
+        body: [
+          "El hero de este sitio necesitaba un vídeo gobernado por el scroll. El servicio de generación estaba inactivo y pagar no era una opción. Pero el propio fondo WebGL de la página ya dibuja un campo volumétrico; bastaba con correr ese mismo campo en Node y entregar los fotogramas a ffmpeg.",
+          "El primer resultado parecía mármol, no humo: ruido de alta frecuencia por todas partes y 12 MB de archivo. El error estaba en una línea. El fract de GLSL siempre devuelve un valor positivo; el operador % de JavaScript conserva el signo del dividendo. Los gradientes del ruido salían con el doble de amplitud y sesgados.",
+          "Corregido eso, el mismo encode bajó a 4 MB — el codificador estaba gastando bits en describir ruido aleatorio. Reducir la frecuencia y la amplitud del domain warp lo llevó a 1,3 MB, y el campo pasó a leerse como humo lento en vez de piedra pulida.",
+          "El detalle que hace funcionar el scrubbing no es el bitrate, es el intervalo de keyframes. Saltar a un instante arbitrario obliga al decodificador a empezar en el keyframe anterior; con un keyframe cada cinco fotogramas el salto es inmediato. Un encode todo en intra también lo resuelve, y cuesta los mismos 12 MB.",
+          "El grano quedó fuera del encode a propósito. Añadirlo en ffmpeg le da al codificador ruido aleatorio que describir y cuesta megabytes; la misma textura sale de una superposición en CSS por cero bytes.",
+        ],
+        takeaway:
+          "Antes de contratar un servicio, conviene preguntarse si el resultado no existe ya en la máquina. Aquí existía — solo faltaba exportarlo.",
+      },
+    },
   },
   language: "Idioma",
   theme: "Cambiar tema",

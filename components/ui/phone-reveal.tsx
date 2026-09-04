@@ -4,6 +4,7 @@ import { useState } from "react";
 import { MessageCircle, Phone } from "lucide-react";
 import { Flag } from "@/components/ui/flag";
 import { phones, whatsapp } from "@/lib/content";
+import { whatsappLink } from "@/lib/contact-links";
 import { useI18n } from "@/lib/i18n/provider";
 
 /**
@@ -59,7 +60,7 @@ export function PhoneReveal() {
 
       {whatsapp ? (
         <a
-          href={whatsapp}
+          href={whatsappLink(t)}
           target="_blank"
           rel="noreferrer noopener"
           data-cursor-label="WhatsApp"
