@@ -139,6 +139,8 @@ export type Dictionary = {
     run: string;
     modeLocal: string;
     modeLive: string;
+    waking: string;
+    fellBack: string;
     valid: string;
     invalid: string;
     note: string;

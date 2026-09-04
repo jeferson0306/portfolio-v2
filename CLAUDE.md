@@ -48,6 +48,18 @@ Personal portfolio for Jeferson Siqueira. Static site, no backend, no database.
 - `position: fixed` resolves against the transformed `#smooth-content`, not the
   viewport. Overlays must be portalled to `document.body`.
 
+## The API console
+
+`NEXT_PUBLIC_VALIDATOR_API` points the console at the deployed Go service. It is
+**deliberately unset**: the service at api-data-validator.onrender.com sends no
+`Access-Control-Allow-Origin`, so a browser on the published site is blocked and
+every call would silently fall back — while the badge claimed the service had
+answered. Set the variable only once the service sends CORS headers.
+
+The live path treats 400 and 422 as answers, not failures: the service uses them
+for "bad request" and "invalid value". Only a network error or a timeout falls
+back to the local rules, and when it does the panel says so.
+
 ## Notes
 
 `lib/notes.ts` data lives in `lib/content.ts`; the prose is in the dictionaries,

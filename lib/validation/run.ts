@@ -9,6 +9,7 @@ import {
 } from "./br";
 import { cleanName, isValidEmail, isValidFullName } from "./person";
 import { cardBrand, passesLuhn } from "./card";
+import { isValidRg } from "./rg";
 
 export type ValidationResult = {
   field: string;
@@ -86,6 +87,14 @@ export function runValidation(field: string, input: string): ValidationResult {
         detail: brand ? `Luhn checksum · ${brand}` : "Luhn checksum · brand unknown",
       };
     }
+
+    case "rg":
+      return {
+        ...base,
+        valid: isValidRg(trimmed),
+        normalized: onlyDigits(trimmed),
+        detail: "format only — RG has no national checksum",
+      };
 
     default:
       return { ...base, valid: false, detail: "unknown field" };

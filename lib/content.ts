@@ -298,6 +298,7 @@ export const validatorFields: ValidatorField[] = [
   { id: "phone", param: "telephone", sample: "(11) 98765-4321" },
   { id: "cep", param: "cep", sample: "70040-010" },
   { id: "card", param: "plastic", sample: "4111 1111 1111 1111" },
+  { id: "rg", param: "rg", sample: "12.345.678-9" },
 ];
 
 /**
