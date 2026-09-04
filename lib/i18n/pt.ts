@@ -61,7 +61,7 @@ export const pt: Dictionary = {
       "product-recommendation-service":
         "Serviço reativo de recomendação de produtos com Spring Boot, WebFlux e Resilience4j — tolerância a falhas e latência baixa sob carga.",
       brdoc:
-        "API em Go que valida e normaliza dados brasileiros — email, CPF, nome, telefone, RG, CEP e cartão — num único endpoint, com cache em Redis.",
+        "API em Go que valida e normaliza dados brasileiros — email, CPF, nome, telefone, RG, CEP e cartão — num único endpoint.",
       "jay-crew":
         "Ferramenta CLI publicada no npm: analisa qualquer projeto, deteta a stack e gera um briefing estruturado para assistentes de IA. Sem chave de API.",
       "portfolio-v2":
@@ -135,7 +135,7 @@ export const pt: Dictionary = {
       latency: "Latência de agregação",
       breaker: "Limiar do circuit breaker",
       validators: "Validadores num só endpoint",
-      cache: "Camada de cache",
+      cacheDecision: "Cache: medida, dispensada",
       checksum: "Algoritmo de verificação",
       frameworks: "Frameworks detetados",
       versions: "Versões publicadas",
@@ -172,7 +172,7 @@ export const pt: Dictionary = {
       brdoc: [
         "Validação de CPF com dígitos verificadores, não apenas contagem de caracteres.",
         "Cartão de crédito validado por Luhn, com identificação da bandeira.",
-        "Resultados de CPF guardados em Redis — a verificação é determinística, logo cacheável.",
+        "Uma verificação de CPF custa ~0,5µs em memória — milhares de vezes mais barato que uma ida ao Redis — por isso a cache fica opcional e desligada por defeito.",
         "Nomes normalizados: acentos removidos, caracteres inválidos filtrados, espaços colapsados.",
       ],
       "jay-crew": [

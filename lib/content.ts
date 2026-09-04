@@ -109,7 +109,7 @@ export const projects: Project[] = [
   {
     id: "brdoc",
     name: "brdoc",
-    stack: ["Go", "Redis", "REST"],
+    stack: ["Go", "Gin", "REST"],
     href: "https://github.com/jeferson0306/brdoc",
   },
   {
@@ -255,7 +255,11 @@ export const caseStudyMetrics: Record<string, CaseStudyMetric[]> = {
   ],
   brdoc: [
     { id: "validators", value: "7" },
-    { id: "cache", value: "Redis" },
+    // Redis was benchmarked, not assumed: a CPF check costs ~0.5µs in-process
+    // against a 150ms+ round trip in production, so the cache stays opt-in and
+    // off by default. That decision is the more interesting metric than
+    // "uses Redis" would have been.
+    { id: "cacheDecision", value: "150ms → 0.5µs" },
     { id: "checksum", value: "Luhn" },
   ],
   "jay-crew": [
