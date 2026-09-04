@@ -32,13 +32,30 @@ jobs:
 
       - uses: actions/configure-pages@v5
 
+      - name: Resolve where this copy is served from
+        id: site
+        # A user site (<owner>.github.io) is served from the domain root; every
+        # other repository is a project site served from /<repo>. Every asset
+        # URL in the export depends on getting this right, so it is decided
+        # here — from the repository's own name — rather than hard-coded.
+        run: |
+          owner=$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')
+          repo='${{ github.event.repository.name }}'
+          if [ "$repo" = "$owner.github.io" ]; then
+            echo "base_path=" >> "$GITHUB_OUTPUT"
+            echo "site_url=https://$owner.github.io" >> "$GITHUB_OUTPUT"
+          else
+            echo "base_path=/$repo" >> "$GITHUB_OUTPUT"
+            echo "site_url=https://$owner.github.io/$repo" >> "$GITHUB_OUTPUT"
+          fi
+
       - run: pnpm install --frozen-lockfile
 
       - name: Build static export
-        # Project pages are served from /<repo>, so the app needs the base path
-        # baked in at build time.
+        # The base path is baked in at build time; it cannot be discovered by
+        # the client.
         env:
-          NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}
+          NEXT_PUBLIC_BASE_PATH: ${{ steps.site.outputs.base_path }}
           # Repository *variables*, not secrets: every one of these reaches the
           # client bundle by design. They are kept out of the source tree only
           # so a public repository does not advertise them in plain text.
@@ -47,7 +64,7 @@ jobs:
           NEXT_PUBLIC_WHATSAPP: ${{ vars.NEXT_PUBLIC_WHATSAPP }}
           NEXT_PUBLIC_WEB3FORMS_KEY: ${{ vars.NEXT_PUBLIC_WEB3FORMS_KEY }}
           NEXT_PUBLIC_VALIDATOR_API: ${{ vars.NEXT_PUBLIC_VALIDATOR_API }}
-          NEXT_PUBLIC_SITE_URL: ${{ steps.pages.outputs.base_url || format('https://{0}.github.io/{1}', github.repository_owner, github.event.repository.name) }}
+          NEXT_PUBLIC_SITE_URL: ${{ steps.site.outputs.site_url }}
         run: pnpm build
 
       - uses: actions/upload-pages-artifact@v3

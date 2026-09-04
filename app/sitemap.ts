@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { siteUrl } from "@/lib/site";
+import { canonicalUrl } from "@/lib/site";
 
 // `output: export` refuses a metadata route that has not declared itself
 // static — there is no server to regenerate it.
@@ -9,7 +9,7 @@ export const dynamic = "force-static";
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
-      url: `${siteUrl}/`,
+      url: `${canonicalUrl}/`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 1,

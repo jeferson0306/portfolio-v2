@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import { MotionConfig } from "framer-motion";
 import "./globals.css";
 import { I18nProvider } from "@/lib/i18n/provider";
+import { canonicalUrl, isCanonicalDeployment, siteUrl } from "@/lib/site";
 import { Theme } from "@/components/providers/theme";
 import { PersonSchema } from "@/components/seo/person-schema";
 import { Chrome } from "@/components/providers/chrome";
@@ -20,7 +21,6 @@ const inter = Inter({
   display: "swap",
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://jeferson0306.github.io/portfolio-v2";
 const title = "Jeferson Siqueira — Senior Full Stack Engineer";
 const description =
   "Senior Full Stack Engineer & Interactive UI Specialist. Cloud-native architectures, microservices and high-impact interfaces for BMW Group, Banco do Brasil, Lufthansa Group and more.";
@@ -58,7 +58,11 @@ export const metadata: Metadata = {
     description,
     images: [`${siteUrl}/og.png`],
   },
-  robots: { index: true, follow: true },
+  alternates: { canonical: `${canonicalUrl}/` },
+  // Crawling stays allowed on both copies on purpose: a robots.txt block would
+  // stop crawlers reading the canonical above, which is the very tag that tells
+  // them where the real page is.
+  robots: isCanonicalDeployment ? { index: true, follow: true } : { index: false, follow: true },
 };
 
 export const viewport: Viewport = {
