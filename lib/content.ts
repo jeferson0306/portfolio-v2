@@ -164,9 +164,30 @@ export const contact = {
 
 export type Stat = { id: string; value: number; prefix?: string; suffix?: string };
 
+/**
+ * Whole years since the first role began.
+ *
+ * Derived rather than written down: a hard-coded "5+" was already a year out of
+ * date, and a CV that quietly understates itself every January is worse than no
+ * number at all.
+ */
+function yearsSince(start: YearMonth): number {
+  const now = new Date();
+  const months = (now.getFullYear() - start.year) * 12 + (now.getMonth() + 1 - start.month);
+  return Math.floor(months / 12);
+}
+
+const careerStart = experiences.reduce(
+  (earliest, role) =>
+    role.start.year * 12 + role.start.month < earliest.year * 12 + earliest.month
+      ? role.start
+      : earliest,
+  experiences[0].start,
+);
+
 /** Headline numbers, all traceable to the roles listed above. */
 export const stats: Stat[] = [
-  { id: "years", value: 5, suffix: "+" },
+  { id: "years", value: yearsSince(careerStart), suffix: "+" },
   { id: "repos", value: 80, suffix: "+" },
   { id: "performance", value: 40, prefix: "+", suffix: "%" },
   { id: "sla", value: 95, suffix: "%" },

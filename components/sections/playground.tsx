@@ -193,9 +193,11 @@ export function Playground() {
             {state.payload ? (
               <div data-playground-response className="mt-6">
                 <p
-                  className={`inline-flex items-center gap-2 text-sm font-medium ${
-                    state.valid ? "text-emerald-400" : "text-rose-400"
-                  }`}
+                  className="inline-flex items-center gap-2 text-sm font-medium"
+                  // Through a token, not a Tailwind palette class: this sits on
+                  // the terminal ground, which is near-black in one theme and
+                  // near-white in the other.
+                  style={{ color: state.valid ? "var(--state-ok)" : "var(--state-fail)" }}
                 >
                   {state.valid ? <Check className="h-4 w-4" /> : <X className="h-4 w-4" />}
                   {state.valid ? t.playground.valid : t.playground.invalid}

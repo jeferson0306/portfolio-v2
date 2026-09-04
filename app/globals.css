@@ -12,11 +12,23 @@
   --bg-elevated: #121212;
   --text-primary: #fafafa;
   --text-secondary: #a1a1aa;
-  --text-muted: #52525b;
+  /* Muted still reads as the quiet register, but at 4.9:1 rather than the
+     2.7:1 it used to sit at — these are labels and eyebrows, i.e. real text,
+     and WCAG AA asks 4.5:1 of anything under 18px.
+
+     Tuned against the *raised* surfaces, not the flat page: these labels
+     mostly sit on cards and pills, which cost a few tenths of a point. */
+  --text-muted: #83838c;
   --accent: #e4e4e7;
   --border: rgba(255, 255, 255, 0.08);
   --border-strong: rgba(255, 255, 255, 0.16);
   --glow: rgba(255, 255, 255, 0.6);
+
+  /* A pass/fail colour has to survive being read on either ground. The 400
+     weights are right on black and wash out completely on paper (1.8:1), so
+     the light theme drops to the 700s. */
+  --state-ok: #34d399;
+  --state-fail: #fb7185;
 
   /* Semantic surfaces: the page never writes a literal white or black, so a
      theme swap is a change of these values and nothing else. */
@@ -50,11 +62,14 @@
   --bg-elevated: #ffffff;
   --text-primary: #0b0b0c;
   --text-secondary: #52525b;
-  --text-muted: #9a9aa2;
+  --text-muted: #68686f;
   --accent: #18181b;
   --border: rgba(0, 0, 0, 0.1);
   --border-strong: rgba(0, 0, 0, 0.2);
   --glow: rgba(0, 0, 0, 0.4);
+
+  --state-ok: #047857;
+  --state-fail: #be123c;
 
   --surface-raised: rgba(0, 0, 0, 0.03);
   --surface-hover: rgba(0, 0, 0, 0.06);
@@ -270,12 +285,15 @@ body {
    it stays the strongest contrast signal available in both. Hard edges, no
    gradient: the jolt is the point. */
 [data-backdrop="paper"] {
+  --state-ok: #047857;
+  --state-fail: #be123c;
+
   --bg-body: #f3f3f1;
   --bg-surface: #eaeae7;
   --bg-elevated: #ffffff;
   --text-primary: #0b0b0c;
   --text-secondary: #45454b;
-  --text-muted: #8a8a92;
+  --text-muted: #68686f;
   --border: rgba(0, 0, 0, 0.12);
   --border-strong: rgba(0, 0, 0, 0.24);
   --surface-raised: rgba(0, 0, 0, 0.03);
@@ -291,12 +309,15 @@ body {
 }
 
 :root[data-theme="light"] [data-backdrop="paper"] {
+  --state-ok: #34d399;
+  --state-fail: #fb7185;
+
   --bg-body: #0b0b0c;
   --bg-surface: #131315;
   --bg-elevated: #1b1b1e;
   --text-primary: #fafafa;
   --text-secondary: #a8a8b0;
-  --text-muted: #6b6b74;
+  --text-muted: #8a8a92;
   --border: rgba(255, 255, 255, 0.1);
   --border-strong: rgba(255, 255, 255, 0.2);
   --surface-raised: rgba(255, 255, 255, 0.03);
