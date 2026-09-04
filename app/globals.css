@@ -355,3 +355,64 @@ body {
   border-right: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
 }
+
+/* The flag band in the header.
+   `transform` of exactly one tile width, so the repeat is seamless and the
+   whole thing stays on the compositor. */
+@keyframes flag-drift {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(calc(var(--flag-tile) * -1), 0, 0);
+  }
+}
+@keyframes flag-band-in {
+  from {
+    opacity: 0;
+  }
+}
+
+[data-flag-band] {
+  background-repeat: repeat-x;
+  opacity: var(--flag-band-opacity);
+  /* Faded in at the left, and stopped well short of the right — the theme
+     toggle and the language switcher live there, and their pills are almost
+     transparent. A flag drifting under 11px muted text takes it from 4.8:1 to
+     3.1:1, and no opacity low enough to fix that leaves a band worth having.
+     Decoration gives way to controls.
+
+     252px clears the cluster at every breakpoint: it is 170px wide, and the
+     header's padding is at most 48px. */
+  --flag-band-mask: linear-gradient(
+    90deg,
+    transparent 0,
+    #000 64px,
+    #000 calc(100% - 340px),
+    transparent calc(100% - 252px)
+  );
+  -webkit-mask-image: var(--flag-band-mask);
+  mask-image: var(--flag-band-mask);
+  animation:
+    flag-drift var(--flag-band-speed) linear infinite,
+    flag-band-in 900ms ease-out;
+}
+
+/* Slow enough to read as drift rather than motion: about ten pixels a second.
+   The ceiling is set by the nav links it passes behind — at 0.2 they fall to
+   4.36:1, under the 4.5 they need. */
+:root {
+  --flag-band-opacity: 0.15;
+  --flag-band-speed: 34s;
+}
+[data-theme="light"] {
+  --flag-band-opacity: 0.16;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-flag-band] {
+    /* The band stays — it is information about the chosen language, not
+       decoration alone — but it stops moving. */
+    animation: flag-band-in 900ms ease-out;
+  }
+}

@@ -1,104 +1,59 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { animate, stagger } from "animejs";
-import { flagBodies, flagsByLocale } from "@/lib/flags";
-import type { Locale } from "@/lib/i18n/types";
+import { FLAG_STRIP_HEIGHT, flagStrips } from "@/lib/flags";
+import { useI18n } from "@/lib/i18n/provider";
 
-/** How long the strip stays up once it has arrived. */
-const HOLD_MS = 1700;
-
-export type Burst = { locale: Locale; id: number };
+/** Rendered height of the strip, in px. The tile scales from this. */
+const BAND_HEIGHT = 16;
 
 /**
- * A short flourish under the language switcher: the flags of the countries that
- * speak the chosen language drift in, hold, and leave.
+ * A faint, continuous band of flags drifting across the header: the countries
+ * that speak whichever language is selected. Switch language and the band
+ * changes with it.
  *
- * It is driven by a `burst` token rather than by watching the locale, because
- * the locale also changes once on load when the browser language is detected —
- * and a flourish that fires at nobody's request is just noise. A new `id` means
- * somebody pressed a button.
+ * It is one element with a repeating background image, not a row of <svg>. A
+ * band this wide would need well over a hundred of them, and they would exist
+ * only to be fifteen percent visible. Repeating one tile also means the loop
+ * can be a `transform` of exactly one tile width — seamless, and something the
+ * compositor animates without layout or paint.
  *
- * Purely decorative, and marked as such: the language change is already carried
- * by the switcher's `aria-pressed` and by `documentElement.lang`, so announcing
- * two dozen country names on top of that would make the page worse to listen to
- * in exchange for nothing.
+ * Decorative throughout: `aria-hidden`, and no pointer events. The language is
+ * already announced by the switcher's `aria-pressed` and by
+ * `documentElement.lang`.
  */
-export function LocaleFlags({ burst }: { burst: Burst | null }) {
-  const rootRef = useRef<HTMLDivElement>(null);
+export function LocaleFlagBand() {
+  const { locale } = useI18n();
+  const strip = flagStrips[locale];
 
-  useEffect(() => {
-    const root = rootRef.current;
-    if (!burst || !root) return;
-
-    const flags = Array.from(root.querySelectorAll<HTMLElement>("[data-flag]"));
-    if (flags.length === 0) return;
-
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    let leaving = 0;
-
-    if (reduced) {
-      // No drift, but not nothing: they still appear and go, which is the whole
-      // point of the flourish.
-      animate(flags, { opacity: [0, 1], duration: 240, ease: "out(2)" });
-      leaving = window.setTimeout(
-        () => animate(flags, { opacity: 0, duration: 420, ease: "out(2)" }),
-        HOLD_MS,
-      );
-    } else {
-      animate(flags, {
-        opacity: [0, 1],
-        translateX: [18, 0],
-        translateY: [6, 0],
-        scale: [0.6, 1],
-        duration: 620,
-        // Right to left, following the switcher the reader just pressed.
-        delay: stagger(52, { from: "last" }),
-        ease: "out(3)",
-      });
-
-      leaving = window.setTimeout(() => {
-        animate(flags, {
-          opacity: 0,
-          translateX: -14,
-          scale: 0.8,
-          duration: 520,
-          delay: stagger(34),
-          ease: "in(2)",
-        });
-      }, HOLD_MS);
-    }
-
-    return () => window.clearTimeout(leaving);
-  }, [burst]);
-
-  if (!burst) return null;
+  // The tile is authored at FLAG_STRIP_HEIGHT tall; scale its width to match
+  // the height we actually paint, or the loop shifts by the wrong distance.
+  const scale = BAND_HEIGHT / FLAG_STRIP_HEIGHT;
+  const tile = Math.round(strip.width * scale);
 
   return (
+    // Hidden below `md`: with the nav links collapsed, the header is just the
+    // name and the controls, and the gap left between them is too narrow for a
+    // band to read as anything but a smudge.
     <div
-      ref={rootRef}
       aria-hidden
-      // Never in the way: this floats under the switcher and cannot be clicked,
-      // hovered or tabbed to.
-      className="pointer-events-none absolute right-0 top-full mt-2 flex select-none items-center gap-1.5"
+      className="pointer-events-none absolute inset-0 hidden overflow-hidden md:block"
     >
-      {flagsByLocale[burst.locale].map((code) => (
-        <span
-          // Keyed by the burst as well as the country, so pressing the same
-          // language twice replays the flourish instead of leaving it faded out.
-          key={`${burst.id}-${code}`}
-          data-flag
-          className="block h-[11px] w-[16px] overflow-hidden rounded-[2px] opacity-0 ring-1 ring-[var(--border)]"
-        >
-          <svg
-            viewBox="0 0 513 342"
-            className="h-full w-full"
-            preserveAspectRatio="xMidYMid slice"
-            focusable="false"
-            dangerouslySetInnerHTML={{ __html: flagBodies[code] }}
-          />
-        </span>
-      ))}
+      <div
+        // Remounting on a language change restarts the fade, so the new set
+        // arrives rather than cutting in.
+        key={locale}
+        data-flag-band
+        className="absolute left-0 top-1/2 -translate-y-1/2"
+        style={{
+          height: BAND_HEIGHT,
+          // One tile wider than the header, so the element still covers the
+          // full width at the far end of the shift.
+          width: `calc(100% + ${tile}px)`,
+          backgroundImage: `url("${strip.uri}")`,
+          backgroundSize: `${tile}px ${BAND_HEIGHT}px`,
+          ["--flag-tile" as string]: `${tile}px`,
+        }}
+      />
     </div>
   );
 }
